@@ -1,12 +1,13 @@
-import Header from "./components/Header"
+import GlobalStyles from "./components/GlobalStyles";
+import Page from "./components/Page";
 
 function App() {
   return (
     <>
-      <Header />
+      <GlobalStyles />
+      <Page />
     </>
-    
-  )
+  );
 }
 
-export default App
+export default App;

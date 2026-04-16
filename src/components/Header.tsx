@@ -1,16 +1,18 @@
-import logo from "../assets/images/logo.svg"
-import UnitsDropdown from "./UnitsDropDown"
-import styled from "styled-components"
+import logo from "../assets/images/logo.svg";
+import UnitsDropdown from "./UnitsDropDown";
+import styled from "styled-components";
 
 export default function Header() {
-    return (
+  return (
     <Wrapper>
-        <img src={logo} />
-        <UnitsDropdown />
+      <img src={logo} />
+      <UnitsDropdown />
     </Wrapper>
-    )
+  );
 }
 
 const Wrapper = styled.header`
-    background-color: red;
-`
+  display: flex;
+  justify-content: space-between;
+  margin-block-end: ${48 / 16}rem;
+`;
