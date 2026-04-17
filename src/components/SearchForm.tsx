@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { Search } from "react-feather";
+import { textPreset5Medium } from "./GlobalStyles";
 
 export default function SearchForm() {
   return (
@@ -14,6 +15,8 @@ export default function SearchForm() {
 }
 
 const Wrapper = styled.form`
+  ${textPreset5Medium}
+
   display: flex;
   flex-wrap: wrap;
   gap: 16px;

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Header from "./Header";
 import SearchForm from "./SearchForm";
+import { textPreset2 } from "./GlobalStyles";
 
 export default function Page() {
   return (
@@ -15,14 +16,13 @@ export default function Page() {
 }
 
 const BannerText = styled.span`
+  ${textPreset2}
+
   display: block;
   width: fit-content;
   margin-inline: auto;
   margin-block-end: ${48 / 16}rem;
-  font-size: ${52 / 16}rem;
   text-align: center;
-  font-weight: bold;
-  font-family: "Bricolage Grotesque", serif;
 `;
 
 const Wrapper = styled.div`
