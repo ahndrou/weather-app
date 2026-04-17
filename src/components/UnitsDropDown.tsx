@@ -22,4 +22,5 @@ const Wrapper = styled.button`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 `;

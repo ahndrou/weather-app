@@ -21,16 +21,17 @@ const BannerText = styled.span`
   margin-block-end: ${48 / 16}rem;
   font-size: ${52 / 16}rem;
   text-align: center;
+  font-weight: bold;
+  font-family: "Bricolage Grotesque", serif;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100%;
-  padding: 16px 16px 48px 16px;
+  padding: 16px 16px 48px;
 `;
 
 const Main = styled.main`
   flex-grow: 1;
-  background-color: red;
 `;
