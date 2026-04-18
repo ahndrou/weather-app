@@ -3,6 +3,7 @@ import Header from "./Header";
 import SearchForm from "./SearchForm";
 import { textPreset2 } from "./GlobalStyles";
 import WeatherInfoBanner from "./WeatherTodayBanner";
+import WeatherTodayDetails from "./WeatherTodayDetails";
 
 export default function Page() {
   return (
@@ -12,6 +13,7 @@ export default function Page() {
         <PageTitle>How's the sky looking today?</PageTitle>
         <SearchForm />
         <WeatherInfoBanner />
+        <WeatherTodayDetails />
       </Main>
     </Wrapper>
   );
