@@ -1,0 +1,73 @@
+import styled from "styled-components";
+import sunImgSrc from "../assets/images/icon-sunny.webp";
+import bgImgSmallSrc from "../assets/images/bg-today-small.svg";
+import bgImgLargeSrc from "../assets/images/bg-today-large.svg";
+
+import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
+
+export default function WeatherTodayBanner() {
+  return (
+    <Wrapper>
+      <TextSection>
+        <LocationText>Berlin, Germany</LocationText>
+        <DateText>Tuesday, Aug 5, 2025</DateText>
+      </TextSection>
+
+      <TempDisplayWrapper>
+        <WeatherIcon src={sunImgSrc} />
+        <TempDisplay>68°</TempDisplay>
+      </TempDisplayWrapper>
+    </Wrapper>
+  );
+}
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: ${16 / 16}rem;
+  align-items: center;
+  padding: 41px 24px;
+  border-radius: 20px;
+  background-image: url(${bgImgSmallSrc});
+  background-size: cover;
+  background-position: bottom;
+
+  @media screen and (width >= ${768 / 16}rem) {
+    background-image: url(${bgImgLargeSrc});
+    flex-direction: row;
+  }
+`;
+
+const TextSection = styled.div`
+  flex-grow: 1;
+  text-align: center;
+
+  @media screen and (width >= ${768 / 16}rem) {
+    text-align: left;
+  }
+`;
+
+const LocationText = styled.span`
+  ${textPreset4}
+
+  display: block;
+  margin-bottom: ${12 / 16}rem;
+`;
+
+const DateText = styled.span`
+  ${textPreset6}
+`;
+
+const TempDisplayWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
+const TempDisplay = styled.span`
+  ${textPreset1}
+`;
+
+const WeatherIcon = styled.img`
+  width: ${120 / 16}rem;
+`;

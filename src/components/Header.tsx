@@ -14,5 +14,4 @@ export default function Header() {
 const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
-  margin-block-end: ${48 / 16}rem;
 `;

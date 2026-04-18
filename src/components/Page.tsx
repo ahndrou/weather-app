@@ -2,36 +2,38 @@ import styled from "styled-components";
 import Header from "./Header";
 import SearchForm from "./SearchForm";
 import { textPreset2 } from "./GlobalStyles";
+import WeatherInfoBanner from "./WeatherTodayBanner";
 
 export default function Page() {
   return (
     <Wrapper>
       <Header />
       <Main>
-        <BannerText>How's the sky looking today?</BannerText>
+        <PageTitle>How's the sky looking today?</PageTitle>
         <SearchForm />
+        <WeatherInfoBanner />
       </Main>
     </Wrapper>
   );
 }
 
-const BannerText = styled.span`
-  ${textPreset2}
-
-  display: block;
-  width: fit-content;
-  margin-inline: auto;
-  margin-block-end: ${48 / 16}rem;
-  text-align: center;
-`;
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 32px;
   min-height: 100%;
   padding: 16px 16px 48px;
 `;
 
+const PageTitle = styled.h1`
+  ${textPreset2}
+
+  text-align: center;
+`;
+
 const Main = styled.main`
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
+  gap: 32px;
 `;

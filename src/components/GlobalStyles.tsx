@@ -19,6 +19,11 @@ export default createGlobalStyle`
         box-sizing: border-box;
     }
 
+    p, h1, h2, h3, h4, h5, h6 {
+      margin: 0;
+      padding: 0;
+    }
+
     html, body, #root {
         height: 100%;
         padding: 0;

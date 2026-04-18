@@ -67,7 +67,7 @@ const SearchButton = styled.input`
   border: none;
   flex-basis: 100%;
 
-  @media screen and (width >= 400px) {
+  @media screen and (width >= ${768 / 16}rem) {
     flex-basis: auto;
   }
 `;
