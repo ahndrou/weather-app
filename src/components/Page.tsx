@@ -4,6 +4,7 @@ import SearchForm from "./SearchForm";
 import { textPreset2 } from "./GlobalStyles";
 import WeatherInfoBanner from "./WeatherTodayBanner";
 import WeatherTodayDetails from "./WeatherTodayDetails";
+import DailyForecastGroup from "./DailyForecastGroup";
 
 export default function Page() {
   return (
@@ -14,6 +15,7 @@ export default function Page() {
         <SearchForm />
         <WeatherInfoBanner />
         <WeatherTodayDetails />
+        <DailyForecastGroup />
       </Main>
     </Wrapper>
   );
