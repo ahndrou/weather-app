@@ -1,26 +1,7 @@
 import styled from "styled-components";
-import drizzleIconSrc from "../assets/images/icon-drizzle.webp";
-import fogIconSrc from "../assets/images/icon-fog.webp";
-import overcastIconSrc from "../assets/images/icon-overcast.webp";
-import partlyCloudyIconSrc from "../assets/images/icon-partly-cloudy.webp";
-import rainIconSrc from "../assets/images/icon-rain.webp";
-import snowIconSrc from "../assets/images/icon-snow.webp";
-import stormIconSrc from "../assets/images/icon-storm.webp";
-import sunnyIconSrc from "../assets/images/icon-sunny.webp";
 import { textPreset6, textPreset7 } from "./GlobalStyles";
-
-const ICONS = {
-  drizzle: drizzleIconSrc,
-  fog: fogIconSrc,
-  overcast: overcastIconSrc,
-  partlyCloudy: partlyCloudyIconSrc,
-  rain: rainIconSrc,
-  snow: snowIconSrc,
-  storm: stormIconSrc,
-  sunny: sunnyIconSrc,
-} as const;
-
-type Forecast = keyof typeof ICONS;
+import type { Forecast } from "./WeatherIcon";
+import WeatherIcon from "./WeatherIcon";
 
 type DailyForecastProps = {
   day: string;
@@ -35,12 +16,10 @@ export default function DailyForecast({
   high,
   low,
 }: DailyForecastProps) {
-  const iconSrc = ICONS[forecast];
-
   return (
     <Wrapper>
       <Day>{day}</Day>
-      <WeatherIcon src={iconSrc} />
+      <WeatherIcon forecast={forecast} />
       <TempGroup>
         <TempHigh>{high}</TempHigh>
         <TempLow>{low}</TempLow>
@@ -61,10 +40,6 @@ const Wrapper = styled.div`
 
 const Day = styled.h3`
   ${textPreset6}
-`;
-
-const WeatherIcon = styled.img`
-  width: 60px;
 `;
 
 const TempGroup = styled.div`

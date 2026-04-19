@@ -5,6 +5,7 @@ import { textPreset2 } from "./GlobalStyles";
 import WeatherInfoBanner from "./WeatherTodayBanner";
 import WeatherTodayDetails from "./WeatherTodayDetails";
 import DailyForecastGroup from "./DailyForecastGroup";
+import HourlyForecastGroup from "./HourlyForecastGroup";
 
 export default function Page() {
   return (
@@ -16,6 +17,7 @@ export default function Page() {
         <WeatherInfoBanner />
         <WeatherTodayDetails />
         <DailyForecastGroup />
+        <HourlyForecastGroup />
       </Main>
     </Wrapper>
   );
