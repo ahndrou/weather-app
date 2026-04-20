@@ -27,6 +27,6 @@ const Heading = styled.h2`
 
 const ForecastGroup = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(${104 / 16}rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(${90 / 16}rem, 1fr));
   gap: 16px;
 `;

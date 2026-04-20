@@ -6,7 +6,7 @@ export default function HourlyForecastGroup() {
   return (
     <Wrapper>
       <SectionHeader>
-        <h2>Hourly forecast</h2>
+        <Heading>Hourly forecast</Heading>
         <Button color="light">Tuesday</Button>
       </SectionHeader>
       <ForecastGroup>
@@ -28,7 +28,12 @@ const Wrapper = styled.div`
 const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: ${16 / 16}rem;
+`;
+
+const Heading = styled.h2`
+  margin-inline-end: 0.5rem;
 `;
 
 const ForecastGroup = styled.div`

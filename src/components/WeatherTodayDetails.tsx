@@ -35,6 +35,10 @@ const Wrapper = styled.div`
   @media screen and (width >= ${768 / 16}rem) {
     grid-template-columns: repeat(4, 1fr);
   }
+
+  @media screen and (width >= ${1440 / 16}rem) {
+    gap: 24px;
+  }
 `;
 
 const DetailWrapper = styled.div`
