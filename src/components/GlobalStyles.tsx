@@ -24,6 +24,12 @@ export default createGlobalStyle`
       padding: 0;
     }
 
+    ol, ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
     html, body, #root {
         height: 100%;
         padding: 0;

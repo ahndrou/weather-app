@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import HourlyForecast from "./HourlyForecast";
 import Button from "./Button";
+import DaysDropdown from "./DaysDropdown";
 
 export default function HourlyForecastGroup() {
   return (
     <Wrapper>
       <SectionHeader>
         <Heading>Hourly forecast</Heading>
-        <Button color="light">Tuesday</Button>
+        <DaysDropdown />
       </SectionHeader>
       <ForecastGroup>
         <HourlyForecast forecast="sunny" time={4} temp={68} />
