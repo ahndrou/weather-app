@@ -4,19 +4,18 @@ import styled, { css } from "styled-components";
 import type React from "react";
 import { textPreset7, textPreset8 } from "./GlobalStyles";
 
-type ColorOption = "light" | "dark";
-
-type ButtonProps = {
+type ButtonProps = React.ComponentPropsWithoutRef<"button"> & {
   children: React.ReactNode;
   hasStartIcon?: boolean;
-  color: ColorOption;
 };
 
-export default function Button({ children, hasStartIcon, color }: ButtonProps) {
-  const colorVarName =
-    color === "light" ? "--clr-neutral-600" : "--clr-neutral-800";
+export default function Button({
+  children,
+  hasStartIcon,
+  ...props
+}: ButtonProps) {
   return (
-    <Wrapper color={colorVarName} hasStartIcon={hasStartIcon}>
+    <Wrapper hasStartIcon={hasStartIcon} {...props}>
       {hasStartIcon && <img src={cogIcon} />}
       <span>{children}</span>
       <img src={dropdownIcon} />
@@ -25,7 +24,6 @@ export default function Button({ children, hasStartIcon, color }: ButtonProps) {
 }
 
 type WrapperProps = {
-  color: "--clr-neutral-600" | "--clr-neutral-800";
   hasStartIcon?: boolean;
 };
 
@@ -50,7 +48,7 @@ const withoutIconStyles = css`
 `;
 
 const Wrapper = styled.button<WrapperProps>`
-  background-color: var(${(p) => p.color});
+  background-color: var(--clr-neutral-800);
   color: var(--clr-neutral-000);
   border: none;
   border-radius: 8px;

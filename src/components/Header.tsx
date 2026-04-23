@@ -1,14 +1,12 @@
 import logo from "../assets/images/logo.svg";
-import Button from "./Button";
 import styled from "styled-components";
+import UnitsDropdown from "./UnitsDropdown";
 
 export default function Header() {
   return (
     <Wrapper>
       <img src={logo} />
-      <Button hasStartIcon color="dark">
-        Units
-      </Button>
+      <UnitsDropdown />
     </Wrapper>
   );
 }
