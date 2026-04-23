@@ -25,6 +25,7 @@ export default function HourlyForecast({
 
 const Wrapper = styled.div`
   background-color: var(--clr-neutral-700);
+  border: 1px solid var(--clr-neutral-600);
   border-radius: 8px;
   display: flex;
   align-items: center;

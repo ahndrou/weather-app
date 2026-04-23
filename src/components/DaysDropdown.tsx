@@ -37,6 +37,11 @@ const Wrapper = styled(Select)`
     cursor: pointer;
   }
 
+  & .react-select__control--menu-is-open,
+  .react-select__control--is-focused {
+    box-shadow: 0 0 0 1px var(--clr-neutral-000);
+  }
+
   & .react-select__indicator {
     color: inherit;
   }
@@ -55,6 +60,7 @@ const Wrapper = styled(Select)`
 
   & .react-select__option {
     cursor: pointer;
+    border-radius: 8px;
   }
 
   & .react-select__option--is-focused {

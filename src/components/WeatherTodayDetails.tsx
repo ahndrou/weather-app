@@ -43,6 +43,7 @@ const Wrapper = styled.div`
 
 const DetailWrapper = styled.div`
   background: var(--clr-neutral-800);
+  border: 1px solid var(--clr-neutral-600);
   border-radius: 12px;
   padding: 20px;
   display: flex;
