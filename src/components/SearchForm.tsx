@@ -1,10 +1,19 @@
 import styled from "styled-components";
 import { textPreset5Medium, textPreset7 } from "./GlobalStyles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import searchIcon from "../assets/images/icon-search.svg";
 
 export default function SearchForm() {
   const [focused, setFocused] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchText}`)
+      .then((data) => data.json())
+      .then((json) => json.results)
+      .then((results) => setSuggestions(results ? results : []));
+  }, [searchText]);
 
   return (
     <Wrapper>
@@ -15,14 +24,15 @@ export default function SearchForm() {
           placeholder="Search for a place..."
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
+          value={searchText}
+          onChange={(event) => setSearchText(event.target.value)}
         />
 
         {focused && (
           <Suggestions>
-            <Suggestion>City Name</Suggestion>
-            <Suggestion>City Name</Suggestion>
-            <Suggestion>City Name</Suggestion>
-            <Suggestion>City Name</Suggestion>
+            {suggestions.map((suggestion) => (
+              <Suggestion>{`${suggestion.name}, ${suggestion.admin2}, ${suggestion.country}`}</Suggestion>
+            ))}
           </Suggestions>
         )}
       </SearchBar>
