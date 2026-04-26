@@ -15,7 +15,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   return (
-    <Wrapper hasStartIcon={hasStartIcon} {...props}>
+    <Wrapper $hasStartIcon={hasStartIcon} {...props}>
       {hasStartIcon && <img src={cogIcon} />}
       <span>{children}</span>
       <img src={dropdownIcon} />
@@ -24,7 +24,7 @@ export default function Button({
 }
 
 type WrapperProps = {
-  hasStartIcon?: boolean;
+  $hasStartIcon?: boolean;
 };
 
 const withIconStyles = css`

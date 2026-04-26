@@ -1,42 +1,50 @@
 import styled from "styled-components";
-import { textPreset5Medium, textPreset7 } from "./GlobalStyles";
-import { useEffect, useState } from "react";
+import { textPreset5Medium } from "./GlobalStyles";
+import { useEffect, useRef, useState } from "react";
 import searchIcon from "../assets/images/icon-search.svg";
+import SearchResultsList from "./SearchResultsList";
 
 export default function SearchForm() {
-  const [focused, setFocused] = useState(false);
-  const [searchText, setSearchText] = useState("");
-  const [suggestions, setSuggestions] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [query, setQuery] = useState("");
+  const [submittedQuery, setSubmittedQuery] = useState("");
+
+  const formRef = useRef(null);
 
   useEffect(() => {
-    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${searchText}`)
-      .then((data) => data.json())
-      .then((json) => json.results)
-      .then((results) => setSuggestions(results ? results : []));
-  }, [searchText]);
+    function handleClick(event) {
+      if (!formRef.current.contains(event.target)) {
+        setShowResults(false);
+      }
+    }
+
+    document.addEventListener("click", handleClick);
+
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
 
   return (
-    <Wrapper>
+    <Wrapper ref={formRef}>
       <SearchBar>
         <SearchIcon src={searchIcon} />
         <Input
           type="search"
           placeholder="Search for a place..."
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-          value={searchText}
-          onChange={(event) => setSearchText(event.target.value)}
+          onFocus={() => setShowResults(true)}
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
         />
 
-        {focused && (
-          <Suggestions>
-            {suggestions.map((suggestion) => (
-              <Suggestion>{`${suggestion.name}, ${suggestion.admin2}, ${suggestion.country}`}</Suggestion>
-            ))}
-          </Suggestions>
-        )}
+        {showResults && <SearchResultsList searchQuery={submittedQuery} />}
       </SearchBar>
-      <SearchButton type="button" value="Search" />
+      <SearchButton
+        type="button"
+        value="Search"
+        onClick={() => {
+          setShowResults(true);
+          setSubmittedQuery(query);
+        }}
+      />
     </Wrapper>
   );
 }
@@ -98,48 +106,5 @@ const SearchButton = styled.input`
 
   @media screen and (width >= ${768 / 16}rem) {
     flex-basis: auto;
-  }
-`;
-
-function Suggestions({ children }: { children: React.ReactNode }) {
-  return <SuggestionsWrapper>{children}</SuggestionsWrapper>;
-}
-
-const SuggestionsWrapper = styled.ul`
-  ${textPreset7}
-  background-color: var(--clr-neutral-800);
-  border: 1px solid var(--clr-neutral-600);
-  border-radius: 12px;
-  padding: 8px;
-  position: absolute;
-  top: ${66 / 16}rem;
-  width: 100%;
-  display: grid;
-  gap: ${4 / 16}rem;
-`;
-
-function Suggestion({ children }: { children: React.ReactNode }) {
-  return (
-    <SuggestionWrapper>
-      <button>{children}</button>
-    </SuggestionWrapper>
-  );
-}
-
-const SuggestionWrapper = styled.li`
-  border-radius: 8px;
-
-  & button {
-    all: inherit;
-    outline: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    padding: 8px 10px;
-  }
-
-  &:hover {
-    background-color: var(--clr-neutral-700);
-    outline: 1px solid var(--clr-neutral-600);
   }
 `;
