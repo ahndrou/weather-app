@@ -6,27 +6,33 @@ import WeatherInfoBanner from "./WeatherTodayBanner";
 import WeatherTodayDetails from "./WeatherTodayDetails";
 import DailyForecastGroup from "./DailyForecastGroup";
 import HourlyForecastGroup from "./HourlyForecastGroup";
+import { useState } from "react";
+import { LocationContext } from "../contexts/LocationContext";
 
 export default function Page() {
-  return (
-    <Wrapper>
-      <Header />
-      <Main>
-        <TopSection>
-          <PageTitle>How's the sky looking today?</PageTitle>
-          <SearchFormWrapper>
-            <SearchForm />
-          </SearchFormWrapper>
-        </TopSection>
+  const [chosenLocation, setChosenLocation] = useState(null);
 
-        <GridSection>
-          <WeatherInfoBanner />
-          <WeatherTodayDetails />
-          <DailyForecastGroup />
-          <HourlyForecastGroup />
-        </GridSection>
-      </Main>
-    </Wrapper>
+  return (
+    <LocationContext value={chosenLocation}>
+      <Wrapper>
+        <Header />
+        <Main>
+          <TopSection>
+            <PageTitle>How's the sky looking today?</PageTitle>
+            <SearchFormWrapper>
+              <SearchForm setChosenLocation={setChosenLocation} />
+            </SearchFormWrapper>
+          </TopSection>
+
+          <GridSection>
+            <WeatherInfoBanner />
+            <WeatherTodayDetails />
+            <DailyForecastGroup />
+            <HourlyForecastGroup />
+          </GridSection>
+        </Main>
+      </Wrapper>
+    </LocationContext>
   );
 }
 

@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import searchIcon from "../assets/images/icon-search.svg";
 import SearchResultsList from "./SearchResultsList";
 
-export default function SearchForm() {
+export default function SearchForm({ setChosenLocation }) {
   const [showResults, setShowResults] = useState(false);
-  const [query, setQuery] = useState("");
+  const [inputText, setInputText] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
 
   const formRef = useRef(null);
@@ -31,18 +31,23 @@ export default function SearchForm() {
           type="search"
           placeholder="Search for a place..."
           onFocus={() => setShowResults(true)}
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
+          value={inputText}
+          onChange={(event) => setInputText(event.target.value)}
         />
 
-        {showResults && <SearchResultsList searchQuery={submittedQuery} />}
+        {showResults && (
+          <SearchResultsList
+            query={submittedQuery}
+            setChosenLocation={setChosenLocation}
+          />
+        )}
       </SearchBar>
       <SearchButton
         type="button"
         value="Search"
         onClick={() => {
           setShowResults(true);
-          setSubmittedQuery(query);
+          setSubmittedQuery(inputText);
         }}
       />
     </Wrapper>

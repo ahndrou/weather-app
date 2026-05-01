@@ -1,30 +1,22 @@
 import styled from "styled-components";
 import { textPreset7 } from "./GlobalStyles";
 import loadingIcon from "../assets/images/icon-loading.svg";
-import { useQuery } from "@tanstack/react-query";
+import { useLocationQuery } from "../hooks/useLocationQuery";
 
-const fetchResults = ({ queryKey }) => {
-  const [, searchQuery] = queryKey;
-
-  return fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}`,
-  )
-    .then((data) => data.json())
-    .then((json) => json.results);
-};
-
-export default function SearchResultsList({ searchQuery }) {
-  const { data, isError, isLoading } = useQuery({
-    queryKey: ["location", searchQuery],
-    queryFn: (searchQuery) => fetchResults(searchQuery),
-  });
+export default function SearchResultsList({ query, setChosenLocation }) {
+  const { data, isLoading } = useLocationQuery(query);
 
   return (
     <Results>
       {isLoading ? (
         <LoadingDisplay />
       ) : (
-        data?.map((result) => <Result>{result.name}</Result>)
+        data?.map((result) => (
+          <Result
+            key={result.id}
+            onClick={() => setChosenLocation(result)}
+          >{`${result.name}, ${result.country}`}</Result>
+        ))
       )}
     </Results>
   );
@@ -62,10 +54,18 @@ const ResultsWrapper = styled.ul`
   gap: ${4 / 16}rem;
 `;
 
-function Result({ children }: { children: React.ReactNode }) {
+function Result({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick: any;
+}) {
   return (
     <ResultWrapper>
-      <button>{children}</button>
+      <button onClick={onClick} type="button">
+        {children}
+      </button>
     </ResultWrapper>
   );
 }
