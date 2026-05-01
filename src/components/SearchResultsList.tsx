@@ -3,7 +3,15 @@ import { textPreset7 } from "./GlobalStyles";
 import loadingIcon from "../assets/images/icon-loading.svg";
 import { useLocationQuery } from "../hooks/useLocationQuery";
 
-export default function SearchResultsList({ query, setChosenLocation }) {
+interface SearchResultsListProps {
+  query: string;
+  setChosenLocation: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SearchResultsList({
+  query,
+  setChosenLocation,
+}: SearchResultsListProps) {
   const { data, isLoading } = useLocationQuery(query);
 
   return (
@@ -14,7 +22,7 @@ export default function SearchResultsList({ query, setChosenLocation }) {
         data?.map((result) => (
           <Result
             key={result.id}
-            onClick={() => setChosenLocation(result)}
+            onClick={() => setChosenLocation(result.name)}
           >{`${result.name}, ${result.country}`}</Result>
         ))
       )}
@@ -54,13 +62,12 @@ const ResultsWrapper = styled.ul`
   gap: ${4 / 16}rem;
 `;
 
-function Result({
-  children,
-  onClick,
-}: {
+interface ResultProps {
   children: React.ReactNode;
-  onClick: any;
-}) {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
+function Result({ children, onClick }: ResultProps) {
   return (
     <ResultWrapper>
       <button onClick={onClick} type="button">

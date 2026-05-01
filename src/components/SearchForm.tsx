@@ -1,30 +1,23 @@
 import styled from "styled-components";
 import { textPreset5Medium } from "./GlobalStyles";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import searchIcon from "../assets/images/icon-search.svg";
 import SearchResultsList from "./SearchResultsList";
+import useHideOnClickOutside from "../hooks/useHideOnClickOutside";
 
-export default function SearchForm({ setChosenLocation }) {
+interface SearchFormProps {
+  setChosenLocation: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export default function SearchForm({ setChosenLocation }: SearchFormProps) {
   const [showResults, setShowResults] = useState(false);
   const [inputText, setInputText] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
 
-  const formRef = useRef(null);
-
-  useEffect(() => {
-    function handleClick(event) {
-      if (!formRef.current.contains(event.target)) {
-        setShowResults(false);
-      }
-    }
-
-    document.addEventListener("click", handleClick);
-
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
+  const { elementRef } = useHideOnClickOutside<HTMLFormElement>(setShowResults);
 
   return (
-    <Wrapper ref={formRef}>
+    <Wrapper ref={elementRef}>
       <SearchBar>
         <SearchIcon src={searchIcon} />
         <Input

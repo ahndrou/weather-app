@@ -10,7 +10,7 @@ import { useState } from "react";
 import { LocationContext } from "../contexts/LocationContext";
 
 export default function Page() {
-  const [chosenLocation, setChosenLocation] = useState(null);
+  const [chosenLocation, setChosenLocation] = useState("");
 
   return (
     <LocationContext value={chosenLocation}>
