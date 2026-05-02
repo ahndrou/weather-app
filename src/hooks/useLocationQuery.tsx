@@ -3,10 +3,13 @@ import type { QueryFunctionContext } from "@tanstack/react-query";
 
 const API = "https://geocoding-api.open-meteo.com/v1/search";
 
-interface LocationResponse {
+export interface LocationResponse {
   id: number;
   name: string;
   country: string;
+  latitude: number;
+  longitude: number;
+  timezone: string;
 }
 
 export function useLocationQuery(location: string) {

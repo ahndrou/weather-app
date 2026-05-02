@@ -1,6 +1,9 @@
 import { createContext, useContext } from "react";
+import type { LocationResponse } from "../hooks/useLocationQuery";
 
-export const LocationContext = createContext<string | undefined>(undefined);
+export const LocationContext = createContext<LocationResponse | undefined>(
+  undefined,
+);
 
 /**
  * This should be used instead of directly using useContext(LocationContext).

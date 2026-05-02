@@ -2,10 +2,11 @@ import styled from "styled-components";
 import { textPreset7 } from "./GlobalStyles";
 import loadingIcon from "../assets/images/icon-loading.svg";
 import { useLocationQuery } from "../hooks/useLocationQuery";
+import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchResultsListProps {
   query: string;
-  setChosenLocation: React.Dispatch<React.SetStateAction<string>>;
+  setChosenLocation: React.Dispatch<React.SetStateAction<LocationResponse>>;
 }
 
 export default function SearchResultsList({
@@ -22,7 +23,7 @@ export default function SearchResultsList({
         data?.map((result) => (
           <Result
             key={result.id}
-            onClick={() => setChosenLocation(result.name)}
+            onClick={() => setChosenLocation(result)}
           >{`${result.name}, ${result.country}`}</Result>
         ))
       )}

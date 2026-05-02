@@ -4,39 +4,21 @@ import bgImgSmallSrc from "../assets/images/bg-today-small.svg";
 import bgImgLargeSrc from "../assets/images/bg-today-large.svg";
 
 import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
-import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
-import { LocationContext } from "../contexts/LocationContext";
-
-const fetchResults = ({ queryKey: queryKeyArray }) => {
-  const [, searchQuery] = queryKeyArray;
-
-  return fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${searchQuery}`,
-  )
-    .then((data) => data.json())
-    .then((json) => json.results);
-};
+import { useLocationContext } from "../contexts/LocationContext";
+import getDate from "../helpers/helpers";
 
 export default function WeatherTodayBanner() {
-  const location = useContext(LocationContext);
+  const { name, country, latitude, longitude, timezone } = useLocationContext();
 
-  const locationIsLoaded = !!location?.latitude;
-
-  const weatherResult = useQuery({
-    queryKey: ["weather", location],
-    queryFn: ({ queryKey }) =>
-      fetch(
-        `https://api.open-meteo.com/v1/forecast?&latitude=${location.latitude}&longitude=${location.longitude}&hourly=temperature_2m`,
-      ).then((response) => response.json()),
-    enabled: locationIsLoaded,
-  });
+  const date = getDate(timezone);
 
   return (
     <Wrapper>
       <TextSection>
-        <LocationText>Berlin, Germany</LocationText>
-        <DateText>Tuesday, Aug 5, 2025</DateText>
+        <LocationText>{`${name}, ${country}`}</LocationText>
+        <DateText>
+          {`${date.weekday}, ${date.month} ${date.day}, ${date.year}`}
+        </DateText>
       </TextSection>
 
       <TempDisplayWrapper>

@@ -4,16 +4,16 @@ import { useState } from "react";
 import searchIcon from "../assets/images/icon-search.svg";
 import SearchResultsList from "./SearchResultsList";
 import useHideOnClickOutside from "../hooks/useHideOnClickOutside";
+import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchFormProps {
-  setChosenLocation: React.Dispatch<React.SetStateAction<string>>;
+  setChosenLocation: React.Dispatch<React.SetStateAction<LocationResponse>>;
 }
 
 export default function SearchForm({ setChosenLocation }: SearchFormProps) {
   const [showResults, setShowResults] = useState(false);
   const [inputText, setInputText] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
-
   const { elementRef } = useHideOnClickOutside<HTMLFormElement>(setShowResults);
 
   return (
