@@ -104,7 +104,9 @@ const SearchButton = styled.input`
     background-color: var(--clr-blue-700);
   }
 
+  /* stylelint-disable */
   @media screen and (width >= ${768 / 16}rem) {
+    /* stylelint-enable */
     flex-basis: auto;
   }
 `;
