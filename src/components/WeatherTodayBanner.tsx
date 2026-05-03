@@ -4,26 +4,38 @@ import bgImgSmallSrc from "../assets/images/bg-today-small.svg";
 import bgImgLargeSrc from "../assets/images/bg-today-large.svg";
 
 import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
-import { useLocationContext } from "../contexts/LocationContext";
 import getDate from "../helpers/helpers";
+import { useContext } from "react";
+import { LocationContext } from "../contexts/LocationContext";
+import useWeatherData from "../hooks/useWeatherData";
 
 export default function WeatherTodayBanner() {
-  const { name, country, latitude, longitude, timezone } = useLocationContext();
+  const location = useContext(LocationContext);
 
-  const date = getDate(timezone);
+  let date, name, country;
+
+  if (location !== undefined) {
+    date = getDate(location.timezone);
+    name = location.name;
+    country = location.country;
+  }
+
+  const weather = useWeatherData();
+
+  console.log(weather);
 
   return (
     <Wrapper>
       <TextSection>
         <LocationText>{`${name}, ${country}`}</LocationText>
         <DateText>
-          {`${date.weekday}, ${date.month} ${date.day}, ${date.year}`}
+          {`${date?.weekday}, ${date?.month} ${date?.day}, ${date?.year}`}
         </DateText>
       </TextSection>
 
       <TempDisplayWrapper>
         <WeatherIcon src={sunImgSrc} />
-        <TempDisplay>68°</TempDisplay>
+        <TempDisplay>{weather.data?.hourly.temperature_2m[1]}</TempDisplay>
       </TempDisplayWrapper>
     </Wrapper>
   );

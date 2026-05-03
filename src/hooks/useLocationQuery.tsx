@@ -1,7 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import type { QueryFunctionContext } from "@tanstack/react-query";
-
-const API = "https://geocoding-api.open-meteo.com/v1/search";
 
 export interface LocationResponse {
   id: number;
@@ -12,21 +9,19 @@ export interface LocationResponse {
   timezone: string;
 }
 
-export function useLocationQuery(location: string) {
+const API = "https://geocoding-api.open-meteo.com/v1/search";
+
+export function useLocationQuery(locationQuery: string) {
   return useQuery({
-    queryKey: ["location", location],
-    queryFn: fetchResults,
+    queryKey: ["location", locationQuery],
+    queryFn: () => fetchLocationData(locationQuery),
     // Location data isn't likely to change, so let's make it static here. No need
     // to make any future requests to update it.
     staleTime: "static",
   });
 }
 
-const fetchResults = ({
-  queryKey,
-}: QueryFunctionContext): Promise<LocationResponse[]> => {
-  const [_, location] = queryKey;
-
+const fetchLocationData = (location: string): Promise<LocationResponse[]> => {
   return fetch(`${API}?name=${location}`)
     .then((response) => {
       if (!response.ok) {

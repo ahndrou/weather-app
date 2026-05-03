@@ -6,7 +6,9 @@ import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchResultsListProps {
   query: string;
-  setChosenLocation: React.Dispatch<React.SetStateAction<LocationResponse>>;
+  setChosenLocation: React.Dispatch<
+    React.SetStateAction<LocationResponse | undefined>
+  >;
 }
 
 export default function SearchResultsList({

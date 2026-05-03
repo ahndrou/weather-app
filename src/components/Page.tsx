@@ -8,9 +8,12 @@ import DailyForecastGroup from "./DailyForecastGroup";
 import HourlyForecastGroup from "./HourlyForecastGroup";
 import { useState } from "react";
 import { LocationContext } from "../contexts/LocationContext";
+import type { LocationResponse } from "../hooks/useLocationQuery";
 
 export default function Page() {
-  const [chosenLocation, setChosenLocation] = useState("");
+  const [chosenLocation, setChosenLocation] = useState<
+    LocationResponse | undefined
+  >();
 
   return (
     <LocationContext value={chosenLocation}>

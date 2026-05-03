@@ -7,7 +7,9 @@ import useHideOnClickOutside from "../hooks/useHideOnClickOutside";
 import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchFormProps {
-  setChosenLocation: React.Dispatch<React.SetStateAction<LocationResponse>>;
+  setChosenLocation: React.Dispatch<
+    React.SetStateAction<LocationResponse | undefined>
+  >;
 }
 
 export default function SearchForm({ setChosenLocation }: SearchFormProps) {
