@@ -8,14 +8,14 @@ import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchFormProps {
   setChosenLocation: React.Dispatch<
-    React.SetStateAction<LocationResponse | undefined>
+    React.SetStateAction<LocationResponse | null>
   >;
 }
 
 export default function SearchForm({ setChosenLocation }: SearchFormProps) {
   const [showResults, setShowResults] = useState(false);
   const [inputText, setInputText] = useState("");
-  const [submittedQuery, setSubmittedQuery] = useState("");
+  const [submittedSearch, setSubmittedSearch] = useState("");
   const { elementRef } = useHideOnClickOutside<HTMLFormElement>(setShowResults);
 
   return (
@@ -32,7 +32,7 @@ export default function SearchForm({ setChosenLocation }: SearchFormProps) {
 
         {showResults && (
           <SearchResultsList
-            query={submittedQuery}
+            submittedSearch={submittedSearch}
             setChosenLocation={setChosenLocation}
           />
         )}
@@ -42,7 +42,7 @@ export default function SearchForm({ setChosenLocation }: SearchFormProps) {
         value="Search"
         onClick={() => {
           setShowResults(true);
-          setSubmittedQuery(inputText);
+          setSubmittedSearch(inputText);
         }}
       />
     </Wrapper>

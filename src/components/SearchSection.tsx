@@ -1,12 +1,12 @@
 import { textPreset2 } from "./GlobalStyles";
-import type { LocationResponse } from "../hooks/useLocationQuery";
 
 import styled from "styled-components";
 import SearchForm from "./SearchForm";
+import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchSectionProps {
   setChosenLocation: React.Dispatch<
-    React.SetStateAction<LocationResponse | undefined>
+    React.SetStateAction<LocationResponse | null>
   >;
 }
 

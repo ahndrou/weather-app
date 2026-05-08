@@ -2,15 +2,18 @@ import styled from "styled-components";
 import Header from "./Header";
 
 import { useState } from "react";
-import { LocationContext } from "../contexts/LocationContext";
-import type { LocationResponse } from "../hooks/useLocationQuery";
 import WeatherResults from "./WeatherResults";
 import SearchSection from "./SearchSection";
+import { LocationContext } from "../contexts/LocationContext";
+import { type LocationResponse } from "../hooks/useLocationQuery";
+import useWeatherQuery from "../hooks/useWeatherQuery";
 
 export default function Page() {
-  const [chosenLocation, setChosenLocation] = useState<
-    LocationResponse | undefined
-  >();
+  const [chosenLocation, setChosenLocation] = useState<LocationResponse | null>(
+    null,
+  );
+
+  const weatherQuery = useWeatherQuery(chosenLocation);
 
   return (
     <LocationContext value={chosenLocation}>
@@ -19,7 +22,8 @@ export default function Page() {
         <Main>
           <SearchSection setChosenLocation={setChosenLocation} />
 
-          {chosenLocation && <WeatherResults />}
+          {weatherQuery.isSuccess && <WeatherResults />}
+          {weatherQuery.isError && "Error!"}
         </Main>
       </Wrapper>
     </LocationContext>

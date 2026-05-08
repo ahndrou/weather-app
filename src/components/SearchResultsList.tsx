@@ -1,21 +1,23 @@
 import styled from "styled-components";
 import { textPreset7 } from "./GlobalStyles";
 import loadingIcon from "../assets/images/icon-loading.svg";
-import { useLocationQuery } from "../hooks/useLocationQuery";
-import type { LocationResponse } from "../hooks/useLocationQuery";
+import {
+  useLocationQuery,
+  type LocationResponse,
+} from "../hooks/useLocationQuery";
 
 interface SearchResultsListProps {
-  query: string;
+  submittedSearch: string;
   setChosenLocation: React.Dispatch<
-    React.SetStateAction<LocationResponse | undefined>
+    React.SetStateAction<LocationResponse | null>
   >;
 }
 
 export default function SearchResultsList({
-  query,
+  submittedSearch,
   setChosenLocation,
 }: SearchResultsListProps) {
-  const { data, isLoading } = useLocationQuery(query);
+  const { data, isLoading } = useLocationQuery(submittedSearch);
 
   return (
     <Results>

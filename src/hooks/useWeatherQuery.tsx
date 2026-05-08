@@ -1,31 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
+import type { LocationResponse } from "./useLocationQuery";
 
-export interface WeatherResponse {}
+/**
+ * Response from the weather API.
+ */
+interface WeatherResponse {}
 
 const API = "https://api.open-meteo.com/v1/forecast";
 
 /**
- * Query the Open Meteo weather API based on loc
+ * Query the Open Meteo weather API based on a chosen location.
  */
 export default function useWeatherQuery(
-  latitude: number | undefined,
-  longitude: number | undefined,
+  chosenLocation: LocationResponse | null,
 ) {
-  const enabled = latitude !== undefined && longitude !== undefined;
+  const latitude = chosenLocation?.latitude;
+  const longitude = chosenLocation?.longitude;
+
   return useQuery({
     queryKey: ["weather", { latitude, longitude }],
     queryFn: () => {
-      // This condition should never be true given how the enabled option of react
-      // query works.
-      if (!enabled) {
-        throw new Error(
-          "Tried to query weather API with undefined coordinates.",
-        );
-      } else {
-        return fetchWeather(latitude, longitude);
-      }
+      // The 'enabled' option guarantees that latitude & longitude won't be undefined
+      // by the time the query function is executed.
+      return fetchWeather(latitude as number, longitude as number);
     },
-    enabled,
+    enabled: !!chosenLocation,
   });
 }
 
@@ -35,5 +34,13 @@ const fetchWeather = (
 ): Promise<WeatherResponse> => {
   return fetch(
     `${API}?&latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m`,
-  ).then((data) => data.json());
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Response failed: ${response.status}`);
+      } else {
+        return response;
+      }
+    })
+    .then((data) => data.json());
 };
