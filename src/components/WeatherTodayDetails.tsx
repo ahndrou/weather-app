@@ -1,27 +1,41 @@
 import styled from "styled-components";
 import { textPreset3, textPreset6 } from "./GlobalStyles";
+import { useContext } from "react";
+import { LocationContext } from "../contexts/LocationContext";
+import useWeatherQuery from "../hooks/useWeatherQuery";
+import { roundIfDefined } from "../helpers/helpers";
 
 export default function WeatherTodayDetails() {
+  const chosenLocation = useContext(LocationContext);
+  const weatherQuery = useWeatherQuery(chosenLocation);
+
+  const currentWeather = weatherQuery.data?.current;
+
+  const feelsLikeTemp = roundIfDefined(currentWeather?.apparent_temperature);
+  const humidity = roundIfDefined(currentWeather?.relative_humidity_2m);
+  const wind = roundIfDefined(currentWeather?.wind_speed_10m);
+  const precipitation = roundIfDefined(currentWeather?.precipitation);
+
   return (
     <Wrapper>
       <DetailWrapper>
         <DetailProperty>Feels Like</DetailProperty>
-        <DetailValue>64°</DetailValue>
+        <DetailValue>{feelsLikeTemp + "°"}</DetailValue>
       </DetailWrapper>
 
       <DetailWrapper>
         <DetailProperty>Humidity</DetailProperty>
-        <DetailValue>46%</DetailValue>
+        <DetailValue>{humidity + "%"}</DetailValue>
       </DetailWrapper>
 
       <DetailWrapper>
         <DetailProperty>Wind</DetailProperty>
-        <DetailValue>9 mph</DetailValue>
+        <DetailValue>{wind + " mph"}</DetailValue>
       </DetailWrapper>
 
       <DetailWrapper>
         <DetailProperty>Precipitation</DetailProperty>
-        <DetailValue>0 in</DetailValue>
+        <DetailValue>{precipitation + " in"}</DetailValue>
       </DetailWrapper>
     </Wrapper>
   );

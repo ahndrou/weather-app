@@ -2,7 +2,7 @@
  * Provides a nicer interface for retrieving the current date.
  * @argument timeZone:
  */
-export default function getDate(timeZone: string) {
+export function getDate(timeZone: string) {
   // undefined here uses the default time format taken from the environment.
   const date = new Intl.DateTimeFormat(undefined, {
     month: "long",
@@ -26,4 +26,12 @@ export default function getDate(timeZone: string) {
   }
 
   return { day, weekday, month, year };
+}
+
+export function roundIfDefined(num: number | undefined) {
+  if (num !== undefined) {
+    return Math.round(num);
+  } else {
+    return num;
+  }
 }

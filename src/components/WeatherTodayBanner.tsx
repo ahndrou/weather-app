@@ -4,7 +4,7 @@ import bgImgSmallSrc from "../assets/images/bg-today-small.svg";
 import bgImgLargeSrc from "../assets/images/bg-today-large.svg";
 
 import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
-import getDate from "../helpers/helpers";
+import { getDate } from "../helpers/helpers";
 import { useContext } from "react";
 import { LocationContext } from "../contexts/LocationContext";
 import useWeatherQuery from "../hooks/useWeatherQuery";
@@ -22,7 +22,9 @@ export default function WeatherTodayBanner() {
 
   const weatherQuery = useWeatherQuery(chosenLocation);
 
-  console.log(weatherQuery.data);
+  let currentTemp = weatherQuery.data?.current.temperature_2m;
+
+  if (currentTemp !== undefined) currentTemp = Math.round(currentTemp);
 
   return (
     <Wrapper>
@@ -35,7 +37,7 @@ export default function WeatherTodayBanner() {
 
       <TempDisplayWrapper>
         <WeatherIcon src={sunImgSrc} />
-        <TempDisplay>{23}</TempDisplay>
+        <TempDisplay>{currentTemp + "°"}</TempDisplay>
       </TempDisplayWrapper>
     </Wrapper>
   );
