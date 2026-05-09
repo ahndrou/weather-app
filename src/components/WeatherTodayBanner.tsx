@@ -22,6 +22,8 @@ export default function WeatherTodayBanner() {
 
   const weatherQuery = useWeatherQuery(chosenLocation);
 
+  console.log(weatherQuery.data);
+
   return (
     <Wrapper>
       <TextSection>
@@ -33,7 +35,7 @@ export default function WeatherTodayBanner() {
 
       <TempDisplayWrapper>
         <WeatherIcon src={sunImgSrc} />
-        <TempDisplay>{weatherQuery.data?.hourly.temperature_2m[1]}</TempDisplay>
+        <TempDisplay>{23}</TempDisplay>
       </TempDisplayWrapper>
     </Wrapper>
   );
