@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import sunImgSrc from "../assets/images/icon-sunny.webp";
 import bgImgSmallSrc from "../assets/images/bg-today-small.svg";
 import bgImgLargeSrc from "../assets/images/bg-today-large.svg";
 
 import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
 import { getDate } from "../helpers/helpers";
 import type { LocationResponse } from "../hooks/useLocationQuery";
+import WeatherIcon, { type WeatherCode } from "./WeatherIcon";
 
 interface WeatherTodayBannerProps {
   location: LocationResponse;
@@ -16,6 +16,7 @@ interface WeatherTodayBannerProps {
     relative_humidity_2m: number;
     wind_speed_10m: number;
     precipitation: number;
+    weather_code: number;
   };
 }
 
@@ -35,7 +36,10 @@ export default function WeatherTodayBanner({
       </TextSection>
 
       <TempDisplayWrapper>
-        <WeatherIcon src={sunImgSrc} />
+        <WeatherIcon
+          forecast={forecast.weather_code as WeatherCode}
+          size="large"
+        />
         <TempDisplay>{Math.round(forecast.temperature_2m) + "°"}</TempDisplay>
       </TempDisplayWrapper>
     </Wrapper>
@@ -91,8 +95,4 @@ const TempDisplayWrapper = styled.div`
 
 const TempDisplay = styled.span`
   ${textPreset1}
-`;
-
-const WeatherIcon = styled.img`
-  width: ${120 / 16}rem;
 `;

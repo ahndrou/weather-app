@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import WeatherInfoBanner from "./WeatherTodayBanner";
+import WeatherTodayBanner from "./WeatherTodayBanner";
 import WeatherTodayDetails from "./WeatherTodayDetails";
 import DailyForecastGroup from "./DailyForecastGroup";
 import HourlyForecastGroup from "./HourlyForecastGroup";
@@ -22,12 +22,12 @@ export default function WeatherResults({
 
   return (
     <Wrapper>
-      <WeatherInfoBanner
+      <WeatherTodayBanner
         location={chosenLocation!}
         forecast={weatherQuery.data.current}
       />
       <WeatherTodayDetails forecast={weatherQuery.data.current} />
-      <DailyForecastGroup data={weatherQuery.data.daily} />
+      <DailyForecastGroup forecast={weatherQuery.data.daily} />
       <HourlyForecastGroup data={weatherQuery.data.hourly} />
     </Wrapper>
   );

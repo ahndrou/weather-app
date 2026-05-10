@@ -1,25 +1,25 @@
 import styled from "styled-components";
 import { textPreset6, textPreset7 } from "./GlobalStyles";
-import type { Forecast } from "./WeatherIcon";
+import type { WeatherCode } from "./WeatherIcon";
 import WeatherIcon from "./WeatherIcon";
 
 type DailyForecastProps = {
-  day: string;
-  forecast: Forecast;
-  high: number;
-  low: number;
+  day: string | null;
+  weatherCode: WeatherCode | null;
+  high: number | null;
+  low: number | null;
 };
 
 export default function DailyForecast({
   day,
-  forecast,
+  weatherCode,
   high,
   low,
 }: DailyForecastProps) {
   return (
     <Wrapper>
       <Day>{day}</Day>
-      <WeatherIcon forecast={forecast} />
+      <WeatherIcon forecast={weatherCode} />
       <TempGroup>
         <TempHigh>{high}</TempHigh>
         <TempLow>{low}</TempLow>

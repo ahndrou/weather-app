@@ -1,27 +1,37 @@
 import styled from "styled-components";
 import DailyForecast from "./DailyForecast";
 import { textPreset5 } from "./GlobalStyles";
-import useWeatherQuery from "../hooks/useWeatherQuery";
-import { useContext } from "react";
-import { LocationContext } from "../contexts/LocationContext";
-import { range, roundIfDefined } from "../helpers/helpers";
+import { range } from "../helpers/helpers";
 
-export default function DailyForecastGroup() {
-  const chosenLocation = useContext(LocationContext);
-  const weatherQuery = useWeatherQuery(chosenLocation);
+interface DailyForecastGroupProps {
+  forecast: {
+    time: Date[];
+    weather_code: Float32Array<ArrayBufferLike> | null;
+    temperature_2m_max: Float32Array<ArrayBufferLike> | null;
+    temperature_2m_min: Float32Array<ArrayBufferLike> | null;
+  };
+}
 
-  const forecastLength = weatherQuery.data?.daily.weather_code?.length;
+export default function DailyForecastGroup({
+  forecast,
+}: DailyForecastGroupProps) {
+  const forecastLength = forecast.weather_code?.length;
 
-  const forecasts = range(forecastLength as number).map((i) => {
+  // It is possible for the data for a given day to be null. i.e. there was
+  // no data from the API for that specific day. That is a valid response and
+  // so I am handling it here by displaying a default value.
+  const dailyForecasts = range(forecastLength as number).map((i) => {
     return {
-      weatherCode: weatherQuery.data?.daily.weather_code?.[i],
-      temperatureMax: roundIfDefined(
-        weatherQuery.data?.daily.temperature_2m_max?.[i],
-      ),
-      temperatureLow: roundIfDefined(
-        weatherQuery.data?.daily.temperature_2m_min?.[i],
-      ),
-      day: roundIfDefined(weatherQuery.data?.daily.time[i].getDay()),
+      weatherCode: forecast.weather_code?.[i] ?? null,
+      temperatureMax:
+        forecast.temperature_2m_max !== null
+          ? Math.round(forecast.temperature_2m_max[i])
+          : null,
+      temperatureLow:
+        forecast.temperature_2m_min !== null
+          ? Math.round(forecast.temperature_2m_min[i])
+          : null,
+      day: "Tuesday",
     };
   });
 
@@ -29,12 +39,13 @@ export default function DailyForecastGroup() {
     <div>
       <Heading>Daily forecast</Heading>
       <ForecastGroup>
-        {forecasts.map((forecast) => {
+        {dailyForecasts.map((forecast) => {
           return (
             <DailyForecast
-              day={forecast.day!}
-              high={forecast.temperatureMax!}
-              low={forecast.temperatureLow!}
+              day={forecast.day}
+              high={forecast.temperatureMax}
+              low={forecast.temperatureLow}
+              weatherCode={forecast.weatherCode}
             />
           );
         })}

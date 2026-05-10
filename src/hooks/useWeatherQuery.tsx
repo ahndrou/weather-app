@@ -32,6 +32,7 @@ const API_SETTINGS = {
     "relative_humidity_2m",
     "wind_speed_10m",
     "precipitation",
+    "weather_code",
   ],
 };
 
@@ -71,6 +72,7 @@ async function fetchAndParseAPIResult(latitude: number, longitude: number) {
       relative_humidity_2m: current.variables(2)!.value(),
       wind_speed_10m: current.variables(3)!.value(),
       precipitation: current.variables(4)!.value(),
+      weather_code: current.variables(5)!.value(),
     },
     hourly: {
       time: Array.from(
