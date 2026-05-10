@@ -5,18 +5,31 @@ import WeatherTodayDetails from "./WeatherTodayDetails";
 import DailyForecastGroup from "./DailyForecastGroup";
 import HourlyForecastGroup from "./HourlyForecastGroup";
 
-import { LoadingContext } from "../contexts/LoadingContext";
+import type { LocationResponse } from "../hooks/useLocationQuery";
+import useWeatherQuery from "../hooks/useWeatherQuery";
 
-export default function WeatherResults() {
+interface WeatherResultsProps {
+  chosenLocation: LocationResponse | null;
+}
+
+export default function WeatherResults({
+  chosenLocation,
+}: WeatherResultsProps) {
+  const weatherQuery = useWeatherQuery(chosenLocation);
+
+  if (weatherQuery.isError) return "Error!!";
+  if (weatherQuery.isPending) return "Loading";
+
   return (
-    <LoadingContext value={true}>
-      <Wrapper>
-        <WeatherInfoBanner />
-        <WeatherTodayDetails />
-        <DailyForecastGroup />
-        <HourlyForecastGroup />
-      </Wrapper>
-    </LoadingContext>
+    <Wrapper>
+      <WeatherInfoBanner
+        location={chosenLocation!}
+        forecast={weatherQuery.data.current}
+      />
+      <WeatherTodayDetails data={weatherQuery.data.current} />
+      <DailyForecastGroup data={weatherQuery.data.daily} />
+      <HourlyForecastGroup data={weatherQuery.data.hourly} />
+    </Wrapper>
   );
 }
 

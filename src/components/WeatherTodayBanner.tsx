@@ -5,39 +5,38 @@ import bgImgLargeSrc from "../assets/images/bg-today-large.svg";
 
 import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
 import { getDate } from "../helpers/helpers";
-import { useContext } from "react";
-import { LocationContext } from "../contexts/LocationContext";
-import useWeatherQuery from "../hooks/useWeatherQuery";
+import type { LocationResponse } from "../hooks/useLocationQuery";
 
-export default function WeatherTodayBanner() {
-  const chosenLocation = useContext(LocationContext);
-  const cityName = chosenLocation?.name;
-  const countryName = chosenLocation?.country;
+interface WeatherTodayBannerProps {
+  location: LocationResponse;
+  forecast: {
+    time: Date;
+    temperature_2m: number;
+    apparent_temperature: number;
+    relative_humidity_2m: number;
+    wind_speed_10m: number;
+    precipitation: number;
+  };
+}
 
-  let date;
-
-  if (!!chosenLocation) {
-    date = getDate(chosenLocation.timezone);
-  }
-
-  const weatherQuery = useWeatherQuery(chosenLocation);
-
-  let currentTemp = weatherQuery.data?.current.temperature_2m;
-
-  if (currentTemp !== undefined) currentTemp = Math.round(currentTemp);
+export default function WeatherTodayBanner({
+  location,
+  forecast,
+}: WeatherTodayBannerProps) {
+  const date = getDate(location.timezone);
 
   return (
     <Wrapper>
       <TextSection>
-        <LocationText>{`${cityName}, ${countryName}`}</LocationText>
+        <LocationText>{`${location.name}, ${location.country}`}</LocationText>
         <DateText>
-          {`${date?.weekday}, ${date?.month} ${date?.day}, ${date?.year}`}
+          {`${date.weekday}, ${date.month} ${date.day}, ${date.year}`}
         </DateText>
       </TextSection>
 
       <TempDisplayWrapper>
         <WeatherIcon src={sunImgSrc} />
-        <TempDisplay>{currentTemp + "°"}</TempDisplay>
+        <TempDisplay>{Math.round(forecast.temperature_2m) + "°"}</TempDisplay>
       </TempDisplayWrapper>
     </Wrapper>
   );
@@ -54,7 +53,9 @@ const Wrapper = styled.div`
   background-size: cover;
   background-position: bottom;
 
+  /* stylelint-disable */
   @media screen and (width >= ${768 / 16}rem) {
+    /* stylelint-enable */
     background-image: url(${bgImgLargeSrc});
     flex-direction: row;
   }
@@ -64,7 +65,9 @@ const TextSection = styled.div`
   flex-grow: 1;
   text-align: center;
 
+  /* stylelint-disable */
   @media screen and (width >= ${768 / 16}rem) {
+    /* stylelint-enable */
     text-align: left;
   }
 `;

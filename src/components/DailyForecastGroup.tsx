@@ -1,19 +1,43 @@
 import styled from "styled-components";
 import DailyForecast from "./DailyForecast";
 import { textPreset5 } from "./GlobalStyles";
+import useWeatherQuery from "../hooks/useWeatherQuery";
+import { useContext } from "react";
+import { LocationContext } from "../contexts/LocationContext";
+import { range, roundIfDefined } from "../helpers/helpers";
 
 export default function DailyForecastGroup() {
+  const chosenLocation = useContext(LocationContext);
+  const weatherQuery = useWeatherQuery(chosenLocation);
+
+  const forecastLength = weatherQuery.data?.daily.weather_code?.length;
+
+  const forecasts = range(forecastLength as number).map((i) => {
+    return {
+      weatherCode: weatherQuery.data?.daily.weather_code?.[i],
+      temperatureMax: roundIfDefined(
+        weatherQuery.data?.daily.temperature_2m_max?.[i],
+      ),
+      temperatureLow: roundIfDefined(
+        weatherQuery.data?.daily.temperature_2m_min?.[i],
+      ),
+      day: roundIfDefined(weatherQuery.data?.daily.time[i].getDay()),
+    };
+  });
+
   return (
     <div>
       <Heading>Daily forecast</Heading>
       <ForecastGroup>
-        <DailyForecast day="Tue" forecast={"fog"} high={68} low={50} />
-        <DailyForecast day="Tue" forecast={"snow"} high={68} low={50} />
-        <DailyForecast day="Tue" forecast={"rain"} high={68} low={50} />
-        <DailyForecast day="Tue" forecast={"drizzle"} high={68} low={50} />
-        <DailyForecast day="Tue" forecast={"sunny"} high={68} low={50} />
-        <DailyForecast day="Tue" forecast={"storm"} high={68} low={50} />
-        <DailyForecast day="Tue" forecast={"partlyCloudy"} high={68} low={50} />
+        {forecasts.map((forecast) => {
+          return (
+            <DailyForecast
+              day={forecast.day!}
+              high={forecast.temperatureMax!}
+              low={forecast.temperatureLow!}
+            />
+          );
+        })}
       </ForecastGroup>
     </div>
   );

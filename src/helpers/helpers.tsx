@@ -35,3 +35,11 @@ export function roundIfDefined(num: number | undefined) {
     return num;
   }
 }
+
+/**
+ * A simple range function.
+ * @returns Array containing numbers 0 <-> length.
+ */
+export function range(length: number) {
+  return Array.from({ length }, (_, i) => i);
+}
