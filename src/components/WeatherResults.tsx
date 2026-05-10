@@ -26,7 +26,7 @@ export default function WeatherResults({
         location={chosenLocation!}
         forecast={weatherQuery.data.current}
       />
-      <WeatherTodayDetails data={weatherQuery.data.current} />
+      <WeatherTodayDetails forecast={weatherQuery.data.current} />
       <DailyForecastGroup data={weatherQuery.data.daily} />
       <HourlyForecastGroup data={weatherQuery.data.hourly} />
     </Wrapper>

@@ -1,20 +1,24 @@
 import styled from "styled-components";
 import { textPreset3, textPreset6 } from "./GlobalStyles";
-import { useContext } from "react";
-import { LocationContext } from "../contexts/LocationContext";
-import useWeatherQuery from "../hooks/useWeatherQuery";
-import { roundIfDefined } from "../helpers/helpers";
 
-export default function WeatherTodayDetails() {
-  const chosenLocation = useContext(LocationContext);
-  const weatherQuery = useWeatherQuery(chosenLocation);
+interface CurrentWeatherForecast {
+  forecast: {
+    time: Date;
+    temperature_2m: number;
+    apparent_temperature: number;
+    relative_humidity_2m: number;
+    wind_speed_10m: number;
+    precipitation: number;
+  };
+}
 
-  const currentWeather = weatherQuery.data?.current;
-
-  const feelsLikeTemp = roundIfDefined(currentWeather?.apparent_temperature);
-  const humidity = roundIfDefined(currentWeather?.relative_humidity_2m);
-  const wind = roundIfDefined(currentWeather?.wind_speed_10m);
-  const precipitation = roundIfDefined(currentWeather?.precipitation);
+export default function WeatherTodayDetails({
+  forecast,
+}: CurrentWeatherForecast) {
+  const feelsLikeTemp = Math.round(forecast.apparent_temperature);
+  const humidity = Math.round(forecast.relative_humidity_2m);
+  const wind = Math.round(forecast.wind_speed_10m);
+  const precipitation = Math.round(forecast.precipitation);
 
   return (
     <Wrapper>
