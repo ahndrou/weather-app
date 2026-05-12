@@ -11,13 +11,20 @@ interface SearchResultsListProps {
   setChosenLocation: React.Dispatch<
     React.SetStateAction<LocationResponse | null>
   >;
+  setListVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function SearchResultsList({
   submittedSearch,
   setChosenLocation,
+  setListVisible,
 }: SearchResultsListProps) {
   const { data, isLoading } = useLocationQuery(submittedSearch);
+
+  const handleResultClick = (result: LocationResponse) => {
+    setChosenLocation(result);
+    setListVisible(false);
+  };
 
   return (
     <Results>
@@ -27,7 +34,7 @@ export default function SearchResultsList({
         data?.map((result) => (
           <Result
             key={result.id}
-            onClick={() => setChosenLocation(result)}
+            onClick={() => handleResultClick(result)}
           >{`${result.name}, ${result.country}`}</Result>
         ))
       )}

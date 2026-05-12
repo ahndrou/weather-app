@@ -39,6 +39,7 @@ export default function SearchForm({ setChosenLocation }: SearchFormProps) {
           <SearchResultsList
             submittedSearch={submittedSearch}
             setChosenLocation={setChosenLocation}
+            setListVisible={setShowResults}
           />
         )}
       </SearchBar>
