@@ -30,10 +30,10 @@ export default function DailyForecast({
   return (
     <Wrapper>
       <Day>{truncatedWeekdays[day!]}</Day>
-      <WeatherIcon forecast={weatherCode} />
+      <WeatherIcon size="medium" forecast={weatherCode} />
       <TempGroup>
-        <TempHigh>{high}</TempHigh>
-        <TempLow>{low}</TempLow>
+        <TempHigh>{high + "°"}</TempHigh>
+        <TempLow>{low + "°"}</TempLow>
       </TempGroup>
     </Wrapper>
   );

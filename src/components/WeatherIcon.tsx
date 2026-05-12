@@ -55,7 +55,7 @@ export type WeatherCode = keyof typeof WEATHER_CODES;
 
 type WeatherIconProps = {
   forecast: WeatherCode | null;
-  size?: "small" | "large";
+  size?: "small" | "medium" | "large";
 };
 
 export default function WeatherIcon({
@@ -64,13 +64,21 @@ export default function WeatherIcon({
 }: WeatherIconProps) {
   if (forecast === null) return "N/A";
 
-  return <Icon src={WEATHER_CODES[forecast]} $size={size} />;
+  let sizePx = 40;
+
+  if (size === "medium") {
+    sizePx = 60;
+  } else if (size === "large") {
+    sizePx = 120;
+  }
+
+  return <Icon src={WEATHER_CODES[forecast]} $size={sizePx} />;
 }
 
 interface IconProps {
-  $size: "small" | "large";
+  $size: number;
 }
 
 const Icon = styled.img<IconProps>`
-  width: ${(p) => (p.$size === "small" ? "60px" : "120px")};
+  width: ${(p) => p.$size + "px"};
 `;

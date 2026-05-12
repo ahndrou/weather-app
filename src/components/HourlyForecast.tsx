@@ -16,7 +16,7 @@ export default function HourlyForecast({
 }: HourlyForecastProps) {
   return (
     <Wrapper>
-      <WeatherIcon forecast={weatherCode} />
+      <WeatherIcon size="small" forecast={weatherCode} />
       <Time>{time} PM</Time>
       <Temp>{temp}°</Temp>
     </Wrapper>
@@ -29,6 +29,7 @@ const Wrapper = styled.div`
   border-radius: 8px;
   display: flex;
   align-items: center;
+  gap: 8px;
   padding: 10px 16px 10px 12px;
 `;
 
