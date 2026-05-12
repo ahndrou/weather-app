@@ -1,22 +1,22 @@
 import styled from "styled-components";
-import type { Forecast } from "./WeatherIcon";
+import type { WeatherCode } from "./WeatherIcon";
 import WeatherIcon from "./WeatherIcon";
 import { textPreset5Medium, textPreset7 } from "./GlobalStyles";
 
 type HourlyForecastProps = {
-  forecast: Forecast;
+  weatherCode: WeatherCode;
   time: number;
   temp: number;
 };
 
 export default function HourlyForecast({
-  forecast,
+  weatherCode,
   time,
   temp,
 }: HourlyForecastProps) {
   return (
     <Wrapper>
-      <WeatherIcon forecast={forecast} />
+      <WeatherIcon forecast={weatherCode} />
       <Time>{time} PM</Time>
       <Temp>{temp}°</Temp>
     </Wrapper>

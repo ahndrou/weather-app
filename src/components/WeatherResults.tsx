@@ -28,7 +28,7 @@ export default function WeatherResults({
       />
       <WeatherTodayDetails forecast={weatherQuery.data.current} />
       <DailyForecastGroup forecast={weatherQuery.data.daily} />
-      <HourlyForecastGroup data={weatherQuery.data.hourly} />
+      <HourlyForecastGroup forecast={weatherQuery.data.hourlyGroupedByDay} />
     </Wrapper>
   );
 }

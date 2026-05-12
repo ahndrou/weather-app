@@ -1,9 +1,26 @@
 import styled from "styled-components";
 import HourlyForecast from "./HourlyForecast";
-import Button from "./Button";
 import DaysDropdown from "./DaysDropdown";
+import { useState } from "react";
+import type { ParsedWeatherResponse } from "../hooks/useWeatherQuery";
+import { type WeekDay } from "../helpers/helpers";
 
-export default function HourlyForecastGroup() {
+interface HourlyForecastGroupProps {
+  forecast: ParsedWeatherResponse["hourlyGroupedByDay"];
+}
+
+export default function HourlyForecastGroup({
+  forecast,
+}: HourlyForecastGroupProps) {
+  const [displayedForecastDay, setDisplayedForecastDay] =
+    useState<WeekDay>("Tuesday");
+
+  const displayedForecast = forecast[displayedForecastDay];
+
+  if (displayedForecast === undefined) {
+    throw new Error("No data in API response for chosen day!");
+  }
+
   return (
     <Wrapper>
       <SectionHeader>
@@ -11,10 +28,13 @@ export default function HourlyForecastGroup() {
         <DaysDropdown />
       </SectionHeader>
       <ForecastGroup>
-        <HourlyForecast forecast="sunny" time={4} temp={68} />
-        <HourlyForecast forecast="sunny" time={4} temp={68} />
-        <HourlyForecast forecast="sunny" time={4} temp={68} />
-        <HourlyForecast forecast="sunny" time={4} temp={68} />
+        {displayedForecast.map((timeSlot) => (
+          <HourlyForecast
+            weatherCode={timeSlot.weatherCode!}
+            time={timeSlot.time.getHours()}
+            temp={Math.round(timeSlot.temperature!)}
+          />
+        ))}
       </ForecastGroup>
     </Wrapper>
   );

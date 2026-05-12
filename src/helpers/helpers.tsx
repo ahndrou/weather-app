@@ -43,3 +43,20 @@ export function roundIfDefined(num: number | undefined) {
 export function range(length: number) {
   return Array.from({ length }, (_, i) => i);
 }
+
+const DAYS_OF_WEEK = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+] as const;
+
+export type WeekDayNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+export type WeekDay = (typeof DAYS_OF_WEEK)[number];
+
+export function getWeekDay(dayNumber: WeekDayNumber) {
+  return DAYS_OF_WEEK[dayNumber];
+}

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import DailyForecast from "./DailyForecast";
 import { textPreset5 } from "./GlobalStyles";
 import { range } from "../helpers/helpers";
+import type { WeatherCode } from "./WeatherIcon";
 
 interface DailyForecastGroupProps {
   forecast: {
@@ -45,7 +46,7 @@ export default function DailyForecastGroup({
               day={forecast.day}
               high={forecast.temperatureMax}
               low={forecast.temperatureLow}
-              weatherCode={forecast.weatherCode}
+              weatherCode={forecast.weatherCode as WeatherCode}
             />
           );
         })}
