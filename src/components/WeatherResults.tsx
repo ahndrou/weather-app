@@ -17,13 +17,15 @@ export default function WeatherResults({
 }: WeatherResultsProps) {
   const weatherQuery = useWeatherQuery(chosenLocation);
 
+  if (!chosenLocation) return null;
+
   if (weatherQuery.isError) return "Error!!";
   if (weatherQuery.isPending) return "Loading";
 
   return (
     <Wrapper>
       <WeatherTodayBanner
-        location={chosenLocation!}
+        location={chosenLocation}
         forecast={weatherQuery.data.current}
       />
       <WeatherTodayDetails forecast={weatherQuery.data.current} />
