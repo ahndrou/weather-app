@@ -32,7 +32,7 @@ export default function DailyForecastGroup({
         forecast.temperature_2m_min !== null
           ? Math.round(forecast.temperature_2m_min[i])
           : null,
-      day: getWeekDay(forecast.time?.[i].getDay() as WeekDayNumber),
+      day: forecast.time?.[i].getDay() as WeekDayNumber,
     };
   });
 

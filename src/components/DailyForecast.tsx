@@ -2,13 +2,24 @@ import styled from "styled-components";
 import { textPreset6, textPreset7 } from "./GlobalStyles";
 import type { WeatherCode } from "./WeatherIcon";
 import WeatherIcon from "./WeatherIcon";
+import type { WeekDayNumber } from "../helpers/helpers";
 
-type DailyForecastProps = {
-  day: string | null;
+const truncatedWeekdays = {
+  0: "Sun",
+  1: "Mon",
+  2: "Tue",
+  3: "Wed",
+  4: "Thu",
+  5: "Fri",
+  6: "Sat",
+};
+
+interface DailyForecastProps {
+  day: WeekDayNumber | null;
   weatherCode: WeatherCode | null;
   high: number | null;
   low: number | null;
-};
+}
 
 export default function DailyForecast({
   day,
@@ -18,7 +29,7 @@ export default function DailyForecast({
 }: DailyForecastProps) {
   return (
     <Wrapper>
-      <Day>{day}</Day>
+      <Day>{truncatedWeekdays[day!]}</Day>
       <WeatherIcon forecast={weatherCode} />
       <TempGroup>
         <TempHigh>{high}</TempHigh>
@@ -32,6 +43,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
   gap: 16px;
   background-color: var(--clr-neutral-800);
   border: 1px solid var(--clr-neutral-600);
