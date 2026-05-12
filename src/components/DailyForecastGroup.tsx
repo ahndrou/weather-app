@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import DailyForecast from "./DailyForecast";
 import { textPreset5 } from "./GlobalStyles";
-import { range } from "../helpers/helpers";
+import { getWeekDay, range, type WeekDayNumber } from "../helpers/helpers";
 import type { WeatherCode } from "./WeatherIcon";
 
 interface DailyForecastGroupProps {
@@ -32,17 +32,18 @@ export default function DailyForecastGroup({
         forecast.temperature_2m_min !== null
           ? Math.round(forecast.temperature_2m_min[i])
           : null,
-      day: "Tuesday",
+      day: getWeekDay(forecast.time?.[i].getDay() as WeekDayNumber),
     };
   });
 
   return (
-    <div>
+    <Wrapper>
       <Heading>Daily forecast</Heading>
       <ForecastGroup>
         {dailyForecasts.map((forecast) => {
           return (
             <DailyForecast
+              key={forecast.day}
               day={forecast.day}
               high={forecast.temperatureMax}
               low={forecast.temperatureLow}
@@ -51,9 +52,14 @@ export default function DailyForecastGroup({
           );
         })}
       </ForecastGroup>
-    </div>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Heading = styled.h2`
   ${textPreset5}
@@ -65,4 +71,5 @@ const ForecastGroup = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(${90 / 16}rem, 1fr));
   gap: 16px;
+  flex-grow: 1;
 `;

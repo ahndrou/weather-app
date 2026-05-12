@@ -36,6 +36,9 @@ export default function WeatherResults({
 const Wrapper = styled.div`
   display: grid;
   gap: 32px;
+  grid-template-rows: ${286 / 16}rem auto 1fr;
+  max-height: ${693 / 16}rem;
+  align-items: stretch;
 
   /* stylelint-disable */
   @media screen and (width >= ${1440 / 16}rem) {

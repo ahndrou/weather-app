@@ -67,6 +67,7 @@ const DetailWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${24 / 16}rem;
+  height: ${118 / 16}rem;
 `;
 
 const DetailProperty = styled.span`

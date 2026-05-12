@@ -33,6 +33,7 @@ export default function HourlyForecastGroup({
       <ForecastGroup>
         {displayedForecast.map((timeSlot) => (
           <HourlyForecast
+            key={timeSlot.time.getMilliseconds()}
             weatherCode={timeSlot.weatherCode!}
             time={timeSlot.time.getHours()}
             temp={Math.round(timeSlot.temperature!)}
@@ -47,6 +48,8 @@ const Wrapper = styled.div`
   background-color: var(--clr-neutral-800);
   border-radius: 20px;
   padding: 20px 16px;
+  overflow-y: scroll;
+  height: ${693 / 16}rem;
 `;
 
 const SectionHeader = styled.div`
