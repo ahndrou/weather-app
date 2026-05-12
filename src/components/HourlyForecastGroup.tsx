@@ -25,7 +25,10 @@ export default function HourlyForecastGroup({
     <Wrapper>
       <SectionHeader>
         <Heading>Hourly forecast</Heading>
-        <DaysDropdown />
+        <DaysDropdown
+          selectedDay={displayedForecastDay}
+          setSelectedDay={setDisplayedForecastDay}
+        />
       </SectionHeader>
       <ForecastGroup>
         {displayedForecast.map((timeSlot) => (

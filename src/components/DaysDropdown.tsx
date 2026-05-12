@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { textPreset7 } from "./GlobalStyles";
 import Select from "react-select";
+import type { WeekDay } from "../helpers/helpers";
 
-const days = [
+const days: WeekDayOption[] = [
   { value: "Monday", label: "Monday" },
   { value: "Tuesday", label: "Tuesday" },
   { value: "Wednesday", label: "Wednesday" },
@@ -12,13 +13,36 @@ const days = [
   { value: "Sunday", label: "Sunday" },
 ];
 
-export default function DaysDropdown() {
+// An option object in which the value matches the label. An
+// example of a mapped type.
+type MatchingOption<T extends string> = {
+  [K in T]: {
+    value: K;
+    label: K;
+  };
+}[T];
+
+type WeekDayOption = MatchingOption<WeekDay>;
+
+interface DaysDropdownProps {
+  selectedDay: WeekDay;
+  setSelectedDay: React.Dispatch<React.SetStateAction<WeekDay>>;
+}
+
+export default function DaysDropdown({
+  selectedDay,
+  setSelectedDay,
+}: DaysDropdownProps) {
+  const selectedOption = days.find((day) => day.value === selectedDay) ?? null;
+
   return (
     <Wrapper
       options={days}
       isSearchable={false}
       classNamePrefix={"react-select"}
       components={{ IndicatorSeparator: () => null }}
+      value={selectedOption}
+      onChange={(selectedValue) => setSelectedDay(selectedValue!.value)}
     />
   );
 }
@@ -27,7 +51,7 @@ export default function DaysDropdown() {
 // this way for consistency. Using template strings, I am able to use my CSS fragments
 // I have set up already for font styles etc.
 // Note they expose a 'className' prop, and so Styled Components can work with it.
-const Wrapper = styled(Select)`
+const Wrapper = styled(Select<WeekDayOption>)`
   ${textPreset7}
 
   & .react-select__control {
