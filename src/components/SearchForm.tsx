@@ -18,14 +18,19 @@ export default function SearchForm({ setChosenLocation }: SearchFormProps) {
   const [submittedSearch, setSubmittedSearch] = useState("");
   const { elementRef } = useHideOnClickOutside<HTMLFormElement>(setShowResults);
 
+  const handleSubmit: React.SubmitEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    setShowResults(true);
+    setSubmittedSearch(inputText);
+  };
+
   return (
-    <Wrapper ref={elementRef}>
+    <Wrapper ref={elementRef} onSubmit={handleSubmit}>
       <SearchBar>
         <SearchIcon src={searchIcon} />
         <Input
-          type="search"
+          type="text"
           placeholder="Search for a place..."
-          onFocus={() => setShowResults(true)}
           value={inputText}
           onChange={(event) => setInputText(event.target.value)}
         />
@@ -37,14 +42,7 @@ export default function SearchForm({ setChosenLocation }: SearchFormProps) {
           />
         )}
       </SearchBar>
-      <SearchButton
-        type="button"
-        value="Search"
-        onClick={() => {
-          setShowResults(true);
-          setSubmittedSearch(inputText);
-        }}
-      />
+      <SearchButton type="submit" value="Search" />
     </Wrapper>
   );
 }
