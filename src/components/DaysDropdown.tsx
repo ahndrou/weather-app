@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { textPreset7 } from "./GlobalStyles";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import type { WeekDay } from "../helpers/helpers";
+import LoadingIndicator from "./LoadingIndicator";
 
 const days: WeekDayOption[] = [
   { value: "Monday", label: "Monday" },
@@ -24,28 +25,73 @@ type MatchingOption<T extends string> = {
 
 type WeekDayOption = MatchingOption<WeekDay>;
 
-interface DaysDropdownProps {
+interface LoadingProps {
+  isLoading: true;
+}
+
+interface ReadyProps {
+  isLoading?: false;
   selectedDay: WeekDay;
   setSelectedDay: React.Dispatch<React.SetStateAction<WeekDay>>;
 }
 
-export default function DaysDropdown({
-  selectedDay,
-  setSelectedDay,
-}: DaysDropdownProps) {
-  const selectedOption = days.find((day) => day.value === selectedDay) ?? null;
+type DaysDropdownProps = LoadingProps | ReadyProps;
 
-  return (
-    <Wrapper
-      options={days}
-      isSearchable={false}
-      classNamePrefix={"react-select"}
-      components={{ IndicatorSeparator: () => null }}
-      value={selectedOption}
-      onChange={(selectedValue) => setSelectedDay(selectedValue!.value)}
-    />
-  );
+export default function DaysDropdown(props: DaysDropdownProps) {
+  if (props.isLoading)
+    return (
+      <Wrapper
+        isLoading={true}
+        isSearchable={false}
+        classNamePrefix={"react-select"}
+        components={selectInnerComponents}
+        menuPosition="absolute"
+        styles={{
+          menu: (base) => ({
+            ...base,
+            left: "auto",
+            right: 0,
+          }),
+        }}
+      />
+    );
+
+  if (!props.isLoading) {
+    const { selectedDay, setSelectedDay } = props;
+
+    const selectedOption =
+      days.find((day) => day.value === selectedDay) ?? null;
+
+    return (
+      <Wrapper
+        options={days}
+        isSearchable={false}
+        classNamePrefix={"react-select"}
+        components={selectInnerComponents}
+        value={selectedOption}
+        onChange={(selectedValue) => setSelectedDay(selectedValue!.value)}
+        menuPosition="absolute"
+        styles={{
+          menu: (base) => ({
+            ...base,
+            right: 0,
+          }),
+        }}
+      />
+    );
+  }
 }
+
+// This is the way the docs recommend providing custom display components for the select.
+const selectInnerComponents = {
+  IndicatorSeparator: () => null,
+  LoadingIndicator: () => null,
+  Placeholder: (passedProps) => (
+    <components.Placeholder {...passedProps}>
+      {passedProps.selectProps.isLoading ? "-" : "Select..."}
+    </components.Placeholder>
+  ),
+};
 
 // react-select docs suggest styling via their 'styles' prop. I chose to do it
 // this way for consistency. Using template strings, I am able to use my CSS fragments

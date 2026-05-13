@@ -20,7 +20,10 @@ export default function HourlyForecastGroup(props: HourlyForecastGroupProps) {
   if (props.loading)
     return (
       <Wrapper>
-        <h1>Loading!</h1>
+        <SectionHeader>
+          <Heading>Hourly forecast</Heading>
+          <DaysDropdown isLoading />
+        </SectionHeader>
       </Wrapper>
     );
 
