@@ -3,24 +3,33 @@ import type { WeatherCode } from "./WeatherIcon";
 import WeatherIcon from "./WeatherIcon";
 import { textPreset5Medium, textPreset7 } from "./GlobalStyles";
 
-type HourlyForecastProps = {
+interface LoadingProps {
+  loading: true;
+}
+
+interface ReadyProps {
+  loading?: false;
   weatherCode: WeatherCode;
   time: number;
   temp: number;
-};
+}
 
-export default function HourlyForecast({
-  weatherCode,
-  time,
-  temp,
-}: HourlyForecastProps) {
-  return (
-    <Wrapper>
-      <WeatherIcon size="small" forecast={weatherCode} />
-      <Time>{time} PM</Time>
-      <Temp>{temp}°</Temp>
-    </Wrapper>
-  );
+type HourlyForecastProps = LoadingProps | ReadyProps;
+
+export default function HourlyForecast(props: HourlyForecastProps) {
+  if (props.loading) return <Wrapper />;
+
+  if (!props.loading) {
+    const { weatherCode, time, temp } = props;
+
+    return (
+      <Wrapper>
+        <WeatherIcon size="small" forecast={weatherCode} />
+        <Time>{time} PM</Time>
+        <Temp>{temp}°</Temp>
+      </Wrapper>
+    );
+  }
 }
 
 const Wrapper = styled.div`
@@ -31,6 +40,7 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 8px;
   padding: 10px 16px 10px 12px;
+  min-height: ${60 / 16}rem;
 `;
 
 const Time = styled.span`

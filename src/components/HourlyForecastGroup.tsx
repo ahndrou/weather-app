@@ -3,7 +3,7 @@ import HourlyForecast from "./HourlyForecast";
 import DaysDropdown from "./DaysDropdown";
 import { useState } from "react";
 import type { ParsedWeatherResponse } from "../hooks/useWeatherQuery";
-import { type WeekDay } from "../helpers/helpers";
+import { range, type WeekDay } from "../helpers/helpers";
 
 interface LoadingProps {
   loading: true;
@@ -24,6 +24,11 @@ export default function HourlyForecastGroup(props: HourlyForecastGroupProps) {
           <Heading>Hourly forecast</Heading>
           <DaysDropdown isLoading />
         </SectionHeader>
+        <ForecastGroup>
+          {range(24).map(() => (
+            <HourlyForecast loading />
+          ))}
+        </ForecastGroup>
       </Wrapper>
     );
 
