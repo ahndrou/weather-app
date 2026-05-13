@@ -30,8 +30,18 @@ export default createGlobalStyle`
       margin: 0;
     }
 
-    html, body, #root {
-        height: 100%;
+    html {
+      min-height: 100%;
+    }
+
+    body {
+        min-height: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    #root {
+        height: auto;
         padding: 0;
         margin: 0;
     }
