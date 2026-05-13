@@ -12,18 +12,24 @@ interface SearchResultsListProps {
     React.SetStateAction<LocationResponse | null>
   >;
   setListVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setInputText: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function SearchResultsList({
   submittedSearch,
   setChosenLocation,
   setListVisible,
+  setInputText,
 }: SearchResultsListProps) {
   const { data, isLoading } = useLocationQuery(submittedSearch);
 
-  const handleResultClick = (result: LocationResponse) => {
+  const handleResultClick = (
+    result: LocationResponse,
+    resultDisplayedText: string,
+  ) => {
     setChosenLocation(result);
     setListVisible(false);
+    setInputText(resultDisplayedText);
   };
 
   return (
@@ -31,19 +37,25 @@ export default function SearchResultsList({
       {isLoading ? (
         <LoadingDisplay />
       ) : (
-        data?.map((result) => (
-          <Result key={result.id} onClick={() => handleResultClick(result)}>
-            {[
-              result.name,
-              result.admin1,
-              result.admin2,
-              result.admin3,
-              result.country,
-            ]
-              .filter((datum) => datum !== undefined)
-              .join(", ")}
-          </Result>
-        ))
+        data?.map((result) => {
+          const displayedText = [
+            result.name,
+            result.admin1,
+            result.admin2,
+            result.admin3,
+            result.country,
+          ]
+            .filter((datum) => datum !== undefined)
+            .join(", ");
+          return (
+            <Result
+              key={result.id}
+              onClick={() => handleResultClick(result, displayedText)}
+            >
+              {displayedText}
+            </Result>
+          );
+        })
       )}
     </Results>
   );
