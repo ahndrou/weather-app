@@ -3,12 +3,18 @@ import { range } from "../helpers/helpers";
 
 export default function LoadingIndicator() {
   return (
-    <>
+    <Wrapper>
       <AnimatedDots />
       <span>Loading...</span>
-    </>
+    </Wrapper>
   );
 }
+
+const Wrapper = styled.div`
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+`;
 
 function AnimatedDots() {
   return (

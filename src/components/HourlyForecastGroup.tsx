@@ -25,8 +25,8 @@ export default function HourlyForecastGroup(props: HourlyForecastGroupProps) {
           <DaysDropdown isLoading />
         </SectionHeader>
         <ForecastGroup>
-          {range(24).map(() => (
-            <HourlyForecast loading />
+          {range(24).map((i) => (
+            <HourlyForecast key={i} loading />
           ))}
         </ForecastGroup>
       </Wrapper>
