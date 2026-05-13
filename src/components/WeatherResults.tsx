@@ -20,17 +20,30 @@ export default function WeatherResults({
   if (!chosenLocation) return null;
 
   if (weatherQuery.isError) return "Error!!";
-  if (weatherQuery.isPending) return "Loading";
+
+  if (weatherQuery.isPending)
+    return (
+      <Wrapper>
+        <WeatherTodayBanner loading />
+        <WeatherTodayDetails loading />
+        <DailyForecastGroup loading />
+        <HourlyForecastGroup loading />
+      </Wrapper>
+    );
 
   return (
     <Wrapper>
       <WeatherTodayBanner
+        loading
         location={chosenLocation}
         forecast={weatherQuery.data.current}
       />
-      <WeatherTodayDetails forecast={weatherQuery.data.current} />
-      <DailyForecastGroup forecast={weatherQuery.data.daily} />
-      <HourlyForecastGroup forecast={weatherQuery.data.hourlyGroupedByDay} />
+      <WeatherTodayDetails loading forecast={weatherQuery.data.current} />
+      <DailyForecastGroup loading forecast={weatherQuery.data.daily} />
+      <HourlyForecastGroup
+        loading
+        forecast={weatherQuery.data.hourlyGroupedByDay}
+      />
     </Wrapper>
   );
 }

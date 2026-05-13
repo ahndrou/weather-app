@@ -7,7 +7,12 @@ import { getDate } from "../helpers/helpers";
 import type { LocationResponse } from "../hooks/useLocationQuery";
 import WeatherIcon, { type WeatherCode } from "./WeatherIcon";
 
-interface WeatherTodayBannerProps {
+interface LoadingProps {
+  loading: true;
+}
+
+interface ReadyProps {
+  loading?: false;
   location: LocationResponse;
   forecast: {
     time: Date;
@@ -20,30 +25,40 @@ interface WeatherTodayBannerProps {
   };
 }
 
-export default function WeatherTodayBanner({
-  location,
-  forecast,
-}: WeatherTodayBannerProps) {
-  const date = getDate(location.timezone);
+type WeatherTodayBannerProps = LoadingProps | ReadyProps;
 
-  return (
-    <Wrapper>
-      <TextSection>
-        <LocationText>{`${location.name}, ${location.country}`}</LocationText>
-        <DateText>
-          {`${date.weekday}, ${date.month} ${date.day}, ${date.year}`}
-        </DateText>
-      </TextSection>
+export default function WeatherTodayBanner(props: WeatherTodayBannerProps) {
+  if (props.loading)
+    return (
+      <LoadingWrapper>
+        <p>Loading!</p>
+      </LoadingWrapper>
+    );
 
-      <TempDisplayWrapper>
-        <WeatherIcon
-          forecast={forecast.weather_code as WeatherCode}
-          size="large"
-        />
-        <TempDisplay>{Math.round(forecast.temperature_2m) + "°"}</TempDisplay>
-      </TempDisplayWrapper>
-    </Wrapper>
-  );
+  if (!props.loading) {
+    const { location, forecast } = props;
+
+    const date = getDate(location.timezone);
+
+    return (
+      <Wrapper>
+        <TextSection>
+          <LocationText>{`${location.name}, ${location.country}`}</LocationText>
+          <DateText>
+            {`${date.weekday}, ${date.month} ${date.day}, ${date.year}`}
+          </DateText>
+        </TextSection>
+
+        <TempDisplayWrapper>
+          <WeatherIcon
+            forecast={forecast.weather_code as WeatherCode}
+            size="large"
+          />
+          <TempDisplay>{Math.round(forecast.temperature_2m) + "°"}</TempDisplay>
+        </TempDisplayWrapper>
+      </Wrapper>
+    );
+  }
 }
 
 const Wrapper = styled.div`
@@ -63,6 +78,13 @@ const Wrapper = styled.div`
     background-image: url(${bgImgLargeSrc});
     flex-direction: row;
   }
+`;
+
+const LoadingWrapper = styled(Wrapper)`
+  ${textPreset6}
+
+  background: var(--clr-neutral-800);
+  justify-content: center;
 `;
 
 const TextSection = styled.div`

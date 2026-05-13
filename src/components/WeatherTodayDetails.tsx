@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { textPreset3, textPreset6 } from "./GlobalStyles";
 
-interface CurrentWeatherForecast {
+interface LoadingProps {
+  loading: true;
+}
+
+interface ReadyProps {
+  loading?: false;
   forecast: {
     time: Date;
     temperature_2m: number;
@@ -12,37 +17,48 @@ interface CurrentWeatherForecast {
   };
 }
 
-export default function WeatherTodayDetails({
-  forecast,
-}: CurrentWeatherForecast) {
-  const feelsLikeTemp = Math.round(forecast.apparent_temperature);
-  const humidity = Math.round(forecast.relative_humidity_2m);
-  const wind = Math.round(forecast.wind_speed_10m);
-  const precipitation = Math.round(forecast.precipitation);
+type CurrentWeatherForecast = LoadingProps | ReadyProps;
 
-  return (
-    <Wrapper>
-      <DetailWrapper>
-        <DetailProperty>Feels Like</DetailProperty>
-        <DetailValue>{feelsLikeTemp + "°"}</DetailValue>
-      </DetailWrapper>
+export default function WeatherTodayDetails(props: CurrentWeatherForecast) {
+  if (props.loading)
+    return (
+      <Wrapper>
+        <h1>Loading!</h1>
+      </Wrapper>
+    );
 
-      <DetailWrapper>
-        <DetailProperty>Humidity</DetailProperty>
-        <DetailValue>{humidity + "%"}</DetailValue>
-      </DetailWrapper>
+  if (!props.loading) {
+    const { forecast } = props;
 
-      <DetailWrapper>
-        <DetailProperty>Wind</DetailProperty>
-        <DetailValue>{wind + " mph"}</DetailValue>
-      </DetailWrapper>
+    const feelsLikeTemp = Math.round(forecast.apparent_temperature);
+    const humidity = Math.round(forecast.relative_humidity_2m);
+    const wind = Math.round(forecast.wind_speed_10m);
+    const precipitation = Math.round(forecast.precipitation);
 
-      <DetailWrapper>
-        <DetailProperty>Precipitation</DetailProperty>
-        <DetailValue>{precipitation + " in"}</DetailValue>
-      </DetailWrapper>
-    </Wrapper>
-  );
+    return (
+      <Wrapper>
+        <DetailWrapper>
+          <DetailProperty>Feels Like</DetailProperty>
+          <DetailValue>{feelsLikeTemp + "°"}</DetailValue>
+        </DetailWrapper>
+
+        <DetailWrapper>
+          <DetailProperty>Humidity</DetailProperty>
+          <DetailValue>{humidity + "%"}</DetailValue>
+        </DetailWrapper>
+
+        <DetailWrapper>
+          <DetailProperty>Wind</DetailProperty>
+          <DetailValue>{wind + " mph"}</DetailValue>
+        </DetailWrapper>
+
+        <DetailWrapper>
+          <DetailProperty>Precipitation</DetailProperty>
+          <DetailValue>{precipitation + " in"}</DetailValue>
+        </DetailWrapper>
+      </Wrapper>
+    );
+  }
 }
 
 const Wrapper = styled.div`

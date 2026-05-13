@@ -5,43 +5,59 @@ import { useState } from "react";
 import type { ParsedWeatherResponse } from "../hooks/useWeatherQuery";
 import { type WeekDay } from "../helpers/helpers";
 
-interface HourlyForecastGroupProps {
+interface LoadingProps {
+  loading: true;
+}
+
+interface ReadyProps {
+  loading?: false;
   forecast: ParsedWeatherResponse["hourlyGroupedByDay"];
 }
 
-export default function HourlyForecastGroup({
-  forecast,
-}: HourlyForecastGroupProps) {
-  const [displayedForecastDay, setDisplayedForecastDay] =
-    useState<WeekDay>("Tuesday");
+type HourlyForecastGroupProps = LoadingProps | ReadyProps;
 
-  const displayedForecast = forecast[displayedForecastDay];
+export default function HourlyForecastGroup(props: HourlyForecastGroupProps) {
+  if (props.loading)
+    return (
+      <Wrapper>
+        <h1>Loading!</h1>
+      </Wrapper>
+    );
 
-  if (displayedForecast === undefined) {
-    throw new Error("No data in API response for chosen day!");
-  }
+  if (!props.loading) {
+    const { forecast } = props;
 
-  return (
-    <Wrapper>
-      <SectionHeader>
-        <Heading>Hourly forecast</Heading>
-        <DaysDropdown
-          selectedDay={displayedForecastDay}
-          setSelectedDay={setDisplayedForecastDay}
-        />
-      </SectionHeader>
-      <ForecastGroup>
-        {displayedForecast.map((timeSlot) => (
-          <HourlyForecast
-            key={timeSlot.time.getMilliseconds()}
-            weatherCode={timeSlot.weatherCode!}
-            time={timeSlot.time.getHours()}
-            temp={Math.round(timeSlot.temperature!)}
+    const [displayedForecastDay, setDisplayedForecastDay] =
+      useState<WeekDay>("Tuesday");
+
+    const displayedForecast = forecast[displayedForecastDay];
+
+    if (displayedForecast === undefined) {
+      throw new Error("No data in API response for chosen day!");
+    }
+
+    return (
+      <Wrapper>
+        <SectionHeader>
+          <Heading>Hourly forecast</Heading>
+          <DaysDropdown
+            selectedDay={displayedForecastDay}
+            setSelectedDay={setDisplayedForecastDay}
           />
-        ))}
-      </ForecastGroup>
-    </Wrapper>
-  );
+        </SectionHeader>
+        <ForecastGroup>
+          {displayedForecast.map((timeSlot) => (
+            <HourlyForecast
+              key={timeSlot.time.getMilliseconds()}
+              weatherCode={timeSlot.weatherCode!}
+              time={timeSlot.time.getHours()}
+              temp={Math.round(timeSlot.temperature!)}
+            />
+          ))}
+        </ForecastGroup>
+      </Wrapper>
+    );
+  }
 }
 
 const Wrapper = styled.div`
