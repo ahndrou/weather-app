@@ -6,6 +6,7 @@ import { textPreset1, textPreset4, textPreset6 } from "./GlobalStyles";
 import { getDate } from "../helpers/helpers";
 import type { LocationResponse } from "../hooks/useLocationQuery";
 import WeatherIcon, { type WeatherCode } from "./WeatherIcon";
+import LoadingIndicator from "./LoadingIndicator";
 
 interface LoadingProps {
   loading: true;
@@ -31,7 +32,7 @@ export default function WeatherTodayBanner(props: WeatherTodayBannerProps) {
   if (props.loading)
     return (
       <LoadingWrapper>
-        <p>Loading!</p>
+        <LoadingIndicator />
       </LoadingWrapper>
     );
 
@@ -83,6 +84,7 @@ const Wrapper = styled.div`
 const LoadingWrapper = styled(Wrapper)`
   ${textPreset6}
 
+  color: var(--clr-neutral-200);
   background: var(--clr-neutral-800);
   justify-content: center;
 `;
