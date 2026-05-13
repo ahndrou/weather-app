@@ -24,7 +24,12 @@ export default function DailyForecastGroup(props: DailyForecastGroupProps) {
   if (props.loading)
     return (
       <Wrapper>
-        <h1>Loading!</h1>
+        <Heading>Daily forecast</Heading>
+        <ForecastGroup>
+          {range(7).map(() => (
+            <DailyForecast loading />
+          ))}
+        </ForecastGroup>
       </Wrapper>
     );
 

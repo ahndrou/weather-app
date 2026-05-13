@@ -34,16 +34,12 @@ export default function WeatherResults({
   return (
     <Wrapper>
       <WeatherTodayBanner
-        loading
         location={chosenLocation}
         forecast={weatherQuery.data.current}
       />
-      <WeatherTodayDetails loading forecast={weatherQuery.data.current} />
-      <DailyForecastGroup loading forecast={weatherQuery.data.daily} />
-      <HourlyForecastGroup
-        loading
-        forecast={weatherQuery.data.hourlyGroupedByDay}
-      />
+      <WeatherTodayDetails forecast={weatherQuery.data.current} />
+      <DailyForecastGroup forecast={weatherQuery.data.daily} />
+      <HourlyForecastGroup forecast={weatherQuery.data.hourlyGroupedByDay} />
     </Wrapper>
   );
 }

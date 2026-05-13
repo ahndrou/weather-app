@@ -14,29 +14,39 @@ const truncatedWeekdays = {
   6: "Sat",
 };
 
-interface DailyForecastProps {
+interface LoadingProps {
+  loading: true;
+}
+
+interface ReadyProps {
+  loading?: false;
   day: WeekDayNumber | null;
   weatherCode: WeatherCode | null;
   high: number | null;
   low: number | null;
 }
 
-export default function DailyForecast({
-  day,
-  weatherCode,
-  high,
-  low,
-}: DailyForecastProps) {
-  return (
-    <Wrapper>
-      <Day>{truncatedWeekdays[day!]}</Day>
-      <WeatherIcon size="medium" forecast={weatherCode} />
-      <TempGroup>
-        <TempHigh>{high + "°"}</TempHigh>
-        <TempLow>{low + "°"}</TempLow>
-      </TempGroup>
-    </Wrapper>
-  );
+type DailyForecastProps = LoadingProps | ReadyProps;
+
+export default function DailyForecast(props: DailyForecastProps) {
+  if (props.loading) {
+    return <Wrapper></Wrapper>;
+  }
+
+  if (!props.loading) {
+    const { day, weatherCode, high, low } = props;
+
+    return (
+      <Wrapper>
+        <Day>{truncatedWeekdays[day!]}</Day>
+        <WeatherIcon size="medium" forecast={weatherCode} />
+        <TempGroup>
+          <TempHigh>{high + "°"}</TempHigh>
+          <TempLow>{low + "°"}</TempLow>
+        </TempGroup>
+      </Wrapper>
+    );
+  }
 }
 
 const Wrapper = styled.div`
@@ -49,6 +59,7 @@ const Wrapper = styled.div`
   border: 1px solid var(--clr-neutral-600);
   border-radius: 12px;
   padding: 16px 10px;
+  min-height: ${165 / 16}rem;
 `;
 
 const Day = styled.h3`
