@@ -32,10 +32,17 @@ export default function SearchResultsList({
         <LoadingDisplay />
       ) : (
         data?.map((result) => (
-          <Result
-            key={result.id}
-            onClick={() => handleResultClick(result)}
-          >{`${result.name}, ${result.country}`}</Result>
+          <Result key={result.id} onClick={() => handleResultClick(result)}>
+            {[
+              result.name,
+              result.admin1,
+              result.admin2,
+              result.admin3,
+              result.country,
+            ]
+              .filter((datum) => datum !== undefined)
+              .join(", ")}
+          </Result>
         ))
       )}
     </Results>

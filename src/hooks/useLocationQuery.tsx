@@ -7,6 +7,9 @@ export interface LocationResponse {
   latitude: number;
   longitude: number;
   timezone: string;
+  admin1?: string;
+  admin2?: string;
+  admin3?: string;
 }
 
 const API = "https://geocoding-api.open-meteo.com/v1/search";
