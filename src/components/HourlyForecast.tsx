@@ -10,7 +10,7 @@ interface LoadingProps {
 interface ReadyProps {
   loading?: false;
   weatherCode: WeatherCode;
-  time: number;
+  time: Date;
   temp: number;
 }
 
@@ -22,15 +22,27 @@ export default function HourlyForecast(props: HourlyForecastProps) {
   if (!props.loading) {
     const { weatherCode, time, temp } = props;
 
+    const formattedTime = dateTimeFormat.format(time).toUpperCase();
+
     return (
       <Wrapper>
         <WeatherIcon size="small" forecast={weatherCode} />
-        <Time>{time} PM</Time>
+        <Time>{formattedTime}</Time>
         <Temp>{temp}°</Temp>
       </Wrapper>
     );
   }
 }
+
+const dateTimeFormatOptions: Intl.DateTimeFormatOptions = {
+  hour: "numeric",
+  hour12: true,
+};
+
+const dateTimeFormat = new Intl.DateTimeFormat(
+  undefined,
+  dateTimeFormatOptions,
+);
 
 const Wrapper = styled.div`
   background-color: var(--clr-neutral-700);
