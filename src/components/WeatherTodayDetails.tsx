@@ -23,7 +23,25 @@ export default function WeatherTodayDetails(props: CurrentWeatherForecast) {
   if (props.loading)
     return (
       <Wrapper>
-        <h1>Loading!</h1>
+        <DetailWrapper>
+          <DetailProperty>Feels Like</DetailProperty>
+          <DetailValue>{"-"}</DetailValue>
+        </DetailWrapper>
+
+        <DetailWrapper>
+          <DetailProperty>Humidity</DetailProperty>
+          <DetailValue>{"-"}</DetailValue>
+        </DetailWrapper>
+
+        <DetailWrapper>
+          <DetailProperty>Wind</DetailProperty>
+          <DetailValue>{"-"}</DetailValue>
+        </DetailWrapper>
+
+        <DetailWrapper>
+          <DetailProperty>Precipitation</DetailProperty>
+          <DetailValue>{"-"}</DetailValue>
+        </DetailWrapper>
       </Wrapper>
     );
 
