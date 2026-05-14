@@ -143,7 +143,7 @@ async function fetchAndParseAPIResult(latitude: number, longitude: number) {
     const timeSlotData = {
       time: time,
       temperature: hourly.temperature_2m?.[index] ?? null,
-      weatherCode: hourly.weather_code?.[index] ?? null,
+      weatherCode: (hourly.weather_code?.[index] as WeatherCode) ?? null,
     };
 
     if (acc[day] === undefined) {

@@ -26,8 +26,8 @@ export default function DailyForecastGroup(props: DailyForecastGroupProps) {
       <Wrapper>
         <Heading>Daily forecast</Heading>
         <ForecastGroup>
-          {range(7).map(() => (
-            <DailyForecast loading />
+          {range(7).map((i) => (
+            <DailyForecast key={i} loading />
           ))}
         </ForecastGroup>
       </Wrapper>

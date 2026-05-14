@@ -56,7 +56,7 @@ export default function HourlyForecastGroup(props: HourlyForecastGroupProps) {
         <ForecastGroup>
           {displayedForecast.map((timeSlot) => (
             <HourlyForecast
-              key={timeSlot.time.getMilliseconds()}
+              key={timeSlot.time.getHours()}
               weatherCode={timeSlot.weatherCode!}
               time={timeSlot.time}
               temp={Math.round(timeSlot.temperature!)}
