@@ -33,13 +33,10 @@ export default function SearchResultsList({
     }
   }, [queryHasNoResults]);
 
-  const handleResultClick = (
-    result: LocationResponse,
-    resultDisplayedText: string,
-  ) => {
+  const handleResultClick = (result: LocationResponse) => {
     setChosenLocation(result);
     setListVisible(false);
-    setInputText(resultDisplayedText);
+    setInputText(`${result.name}, ${result.country}`);
   };
 
   if (locationQuery.isLoading)
@@ -67,10 +64,7 @@ export default function SearchResultsList({
             .filter((datum) => datum !== undefined)
             .join(", ");
           return (
-            <Result
-              key={result.id}
-              onClick={() => handleResultClick(result, displayedText)}
-            >
+            <Result key={result.id} onClick={() => handleResultClick(result)}>
               {displayedText}
             </Result>
           );
