@@ -4,6 +4,7 @@ import WeatherResults from "./WeatherResults";
 import { useState } from "react";
 import type { LocationResponse } from "../hooks/useLocationQuery";
 import useWeatherQuery from "../hooks/useWeatherQuery";
+import ErrorDisplay from "./ErrorDisplay";
 
 export default function Main() {
   const [chosenLocation, setChosenLocation] = useState<LocationResponse | null>(
@@ -19,7 +20,12 @@ export default function Main() {
       </Wrapper>
     );
 
-  if (weatherQuery.isError) return <h1>Error!</h1>;
+  // Note these are two distinct states that I am handling the same way.
+  if (weatherQuery.isError || weatherQuery.isPaused) {
+    const { refetch } = weatherQuery;
+
+    return <ErrorDisplay refetchQuery={refetch} />;
+  }
 
   if (weatherQuery.isLoading)
     return (
