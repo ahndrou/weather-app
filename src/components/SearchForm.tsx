@@ -8,7 +8,7 @@ import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchFormProps {
   setChosenLocation: React.Dispatch<
-    React.SetStateAction<LocationResponse | null>
+    React.SetStateAction<LocationResponse | "NO_RESULTS" | "INITIAL">
   >;
 }
 
@@ -25,31 +25,38 @@ export default function SearchForm({ setChosenLocation }: SearchFormProps) {
   };
 
   return (
-    <Wrapper ref={elementRef} onSubmit={handleSubmit}>
-      <SearchBar>
-        <SearchIcon src={searchIcon} />
-        <Input
-          type="text"
-          placeholder="Search for a place..."
-          value={inputText}
-          onChange={(event) => setInputText(event.target.value)}
-        />
-
-        {showResults && (
-          <SearchResultsList
-            submittedSearch={submittedSearch}
-            setChosenLocation={setChosenLocation}
-            setListVisible={setShowResults}
-            setInputText={setInputText}
+    <Wrapper>
+      <InputWrapper ref={elementRef} onSubmit={handleSubmit}>
+        <SearchBar>
+          <SearchIcon src={searchIcon} />
+          <Input
+            type="text"
+            placeholder="Search for a place..."
+            value={inputText}
+            onChange={(event) => setInputText(event.target.value)}
           />
-        )}
-      </SearchBar>
-      <SearchButton type="submit" value="Search" />
+
+          {showResults && (
+            <SearchResultsList
+              submittedSearch={submittedSearch}
+              setChosenLocation={setChosenLocation}
+              setListVisible={setShowResults}
+              setInputText={setInputText}
+            />
+          )}
+        </SearchBar>
+        <SearchButton type="submit" value="Search" />
+      </InputWrapper>
     </Wrapper>
   );
 }
 
-const Wrapper = styled.form`
+const Wrapper = styled.div`
+  display: grid;
+  gap: 48px;
+`;
+
+const InputWrapper = styled.form`
   ${textPreset5Medium}
 
   display: flex;

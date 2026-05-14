@@ -12,10 +12,16 @@ import type { WeatherCode } from "../components/WeatherIcon";
  * Query the Open Meteo weather API based on a chosen location.
  */
 export default function useWeatherQuery(
-  chosenLocation: LocationResponse | null,
+  chosenLocation: LocationResponse | "NO_RESULTS" | "INITIAL",
 ) {
-  const latitude = chosenLocation?.latitude;
-  const longitude = chosenLocation?.longitude;
+  const latitude =
+    chosenLocation !== "NO_RESULTS" && chosenLocation !== "INITIAL"
+      ? chosenLocation.latitude
+      : undefined;
+  const longitude =
+    chosenLocation !== "NO_RESULTS" && chosenLocation !== "INITIAL"
+      ? chosenLocation.longitude
+      : undefined;
 
   return useQuery({
     queryKey: ["weather", { latitude, longitude }],
@@ -23,7 +29,7 @@ export default function useWeatherQuery(
       // Query function will not be executed until a lat/long exists, due to
       // the 'enabled' option. Hence the type assertion.
       fetchAndParseAPIResult(latitude as number, longitude as number),
-    enabled: !!chosenLocation,
+    enabled: chosenLocation !== "NO_RESULTS" && chosenLocation !== "INITIAL",
   });
 }
 

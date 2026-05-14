@@ -7,11 +7,12 @@ import type {
   QueryObserverResult,
   RefetchOptions,
 } from "@tanstack/react-query";
+import type { ParsedWeatherResponse } from "../hooks/useWeatherQuery";
 
 interface ErrorDisplayProps {
   refetchQuery: (
     options?: RefetchOptions,
-  ) => Promise<QueryObserverResult<never, Error>>;
+  ) => Promise<QueryObserverResult<ParsedWeatherResponse, Error>>;
 }
 
 export default function ErrorDisplay({ refetchQuery }: ErrorDisplayProps) {

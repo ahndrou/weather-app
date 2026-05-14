@@ -28,11 +28,15 @@ const fetchLocationData = (location: string): Promise<LocationResponse[]> => {
   return fetch(`${API}?name=${location}`)
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Response failed: ${response.status}`);
+        throw new Error(`Location fetch failed. Status: ${response.status}`);
       } else {
         return response;
       }
     })
-    .then((data) => data.json())
-    .then((json) => json.results);
+    .then((data) => {
+      return data.json();
+    })
+    .then((json) => {
+      return json.results ?? [];
+    });
 };

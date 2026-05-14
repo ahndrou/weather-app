@@ -6,7 +6,7 @@ import type { LocationResponse } from "../hooks/useLocationQuery";
 
 interface SearchSectionProps {
   setChosenLocation: React.Dispatch<
-    React.SetStateAction<LocationResponse | null>
+    React.SetStateAction<LocationResponse | "NO_RESULTS" | "INITIAL">
   >;
 }
 

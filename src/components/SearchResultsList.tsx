@@ -9,7 +9,7 @@ import {
 interface SearchResultsListProps {
   submittedSearch: string;
   setChosenLocation: React.Dispatch<
-    React.SetStateAction<LocationResponse | null>
+    React.SetStateAction<LocationResponse | "NO_RESULTS" | "INITIAL">
   >;
   setListVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setInputText: React.Dispatch<React.SetStateAction<string>>;
@@ -21,7 +21,7 @@ export default function SearchResultsList({
   setListVisible,
   setInputText,
 }: SearchResultsListProps) {
-  const { data, isLoading } = useLocationQuery(submittedSearch);
+  const locationQuery = useLocationQuery(submittedSearch);
 
   const handleResultClick = (
     result: LocationResponse,
@@ -32,12 +32,23 @@ export default function SearchResultsList({
     setInputText(resultDisplayedText);
   };
 
-  return (
-    <Results>
-      {isLoading ? (
+  if (locationQuery.isLoading)
+    return (
+      <Results>
         <LoadingDisplay />
-      ) : (
-        data?.map((result) => {
+      </Results>
+    );
+
+  if (locationQuery.isSuccess && locationQuery.data.length === 0) {
+    setChosenLocation("NO_RESULTS");
+
+    return null;
+  }
+
+  if (locationQuery.isSuccess) {
+    return (
+      <Results>
+        {locationQuery.data.map((result) => {
           const displayedText = [
             result.name,
             result.admin1,
@@ -55,10 +66,10 @@ export default function SearchResultsList({
               {displayedText}
             </Result>
           );
-        })
-      )}
-    </Results>
-  );
+        })}
+      </Results>
+    );
+  }
 }
 
 function LoadingDisplay() {

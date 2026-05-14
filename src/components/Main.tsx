@@ -5,18 +5,26 @@ import { useState } from "react";
 import type { LocationResponse } from "../hooks/useLocationQuery";
 import useWeatherQuery from "../hooks/useWeatherQuery";
 import ErrorDisplay from "./ErrorDisplay";
+import { textPreset4 } from "./GlobalStyles";
 
 export default function Main() {
-  const [chosenLocation, setChosenLocation] = useState<LocationResponse | null>(
-    null,
-  );
-
+  const [chosenLocation, setChosenLocation] = useState<
+    LocationResponse | "NO_RESULTS" | "INITIAL"
+  >("INITIAL");
   const weatherQuery = useWeatherQuery(chosenLocation);
 
-  if (!chosenLocation)
+  if (chosenLocation === "INITIAL")
     return (
       <Wrapper>
         <SearchSection setChosenLocation={setChosenLocation} />
+      </Wrapper>
+    );
+
+  if (chosenLocation === "NO_RESULTS")
+    return (
+      <Wrapper>
+        <SearchSection setChosenLocation={setChosenLocation} />
+        <NoResultsText>No search result found!</NoResultsText>
       </Wrapper>
     );
 
@@ -56,4 +64,10 @@ const Wrapper = styled.main`
     /* stylelint-enable */
     gap: 48px;
   }
+`;
+
+const NoResultsText = styled.span`
+  ${textPreset4}
+
+  text-align: center;
 `;
