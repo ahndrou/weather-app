@@ -5,6 +5,7 @@ import {
   useLocationQuery,
   type LocationResponse,
 } from "../hooks/useLocationQuery";
+import { useEffect } from "react";
 
 interface SearchResultsListProps {
   submittedSearch: string;
@@ -23,6 +24,15 @@ export default function SearchResultsList({
 }: SearchResultsListProps) {
   const locationQuery = useLocationQuery(submittedSearch);
 
+  const queryHasNoResults =
+    locationQuery.isSuccess && locationQuery.data.length === 0;
+
+  useEffect(() => {
+    if (queryHasNoResults) {
+      setChosenLocation("NO_RESULTS");
+    }
+  }, [queryHasNoResults]);
+
   const handleResultClick = (
     result: LocationResponse,
     resultDisplayedText: string,
@@ -39,9 +49,7 @@ export default function SearchResultsList({
       </Results>
     );
 
-  if (locationQuery.isSuccess && locationQuery.data.length === 0) {
-    setChosenLocation("NO_RESULTS");
-
+  if (queryHasNoResults) {
     return null;
   }
 
