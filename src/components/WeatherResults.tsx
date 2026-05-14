@@ -6,22 +6,22 @@ import DailyForecastGroup from "./DailyForecastGroup";
 import HourlyForecastGroup from "./HourlyForecastGroup";
 
 import type { LocationResponse } from "../hooks/useLocationQuery";
-import useWeatherQuery from "../hooks/useWeatherQuery";
+import type { ParsedWeatherResponse } from "../hooks/useWeatherQuery";
 
-interface WeatherResultsProps {
-  chosenLocation: LocationResponse | null;
+interface LoadingProps {
+  isLoading: true;
 }
 
-export default function WeatherResults({
-  chosenLocation,
-}: WeatherResultsProps) {
-  const weatherQuery = useWeatherQuery(chosenLocation);
+interface ReadyProps {
+  isLoading?: false;
+  chosenLocation: LocationResponse;
+  weatherData: ParsedWeatherResponse;
+}
 
-  if (!chosenLocation) return null;
+type WeatherResultsProps = LoadingProps | ReadyProps;
 
-  if (weatherQuery.isError) return "Error!!";
-
-  if (weatherQuery.isPending)
+export default function WeatherResults(props: WeatherResultsProps) {
+  if (props.isLoading)
     return (
       <Wrapper>
         <WeatherTodayBanner loading />
@@ -31,15 +31,17 @@ export default function WeatherResults({
       </Wrapper>
     );
 
+  const { chosenLocation, weatherData } = props;
+
   return (
     <Wrapper>
       <WeatherTodayBanner
         location={chosenLocation}
-        forecast={weatherQuery.data.current}
+        forecast={weatherData.current}
       />
-      <WeatherTodayDetails forecast={weatherQuery.data.current} />
-      <DailyForecastGroup forecast={weatherQuery.data.daily} />
-      <HourlyForecastGroup forecast={weatherQuery.data.hourlyGroupedByDay} />
+      <WeatherTodayDetails forecast={weatherData.current} />
+      <DailyForecastGroup forecast={weatherData.daily} />
+      <HourlyForecastGroup forecast={weatherData.hourlyGroupedByDay} />
     </Wrapper>
   );
 }
