@@ -14,7 +14,7 @@ export default function UnitsDropdown() {
     usingMetric ? setUnitSystem("imperial") : setUnitSystem("metric");
 
   return (
-    <DropdownMenu.Root>
+    <DropdownMenu.Root modal={false}>
       <DropdownMenu.Trigger asChild>
         <Button hasStartIcon>Units</Button>
       </DropdownMenu.Trigger>

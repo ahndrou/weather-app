@@ -1,7 +1,6 @@
 import { createGlobalStyle, css } from "styled-components";
 
 export default createGlobalStyle`
-
     *,
     *::before,
     *::after {
@@ -21,6 +20,7 @@ export default createGlobalStyle`
 
     html {
       min-height: 100%;
+      scrollbar-gutter: stable both-edges;
     }
 
     body {
