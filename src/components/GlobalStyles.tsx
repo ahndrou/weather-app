@@ -1,17 +1,6 @@
 import { createGlobalStyle, css } from "styled-components";
-import DMSansFontSrc from "../assets/fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf";
-import BricolageFontSrc from "../assets/fonts/Bricolage_Grotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf";
 
 export default createGlobalStyle`
-    @font-face {
-        font-family: 'DM Sans';
-        src: url(${DMSansFontSrc});
-    }
-
-    @font-face {
-        font-family: 'Bricolage Grotesque';
-        src: url(${BricolageFontSrc});
-    }
 
     *,
     *::before,

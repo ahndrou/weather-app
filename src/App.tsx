@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GlobalStyles from "./components/GlobalStyles";
 import Page from "./components/Page";
+import "./fonts.css";
 
 const queryClient = new QueryClient();
 
